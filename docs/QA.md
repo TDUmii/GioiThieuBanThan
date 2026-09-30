@@ -1,34 +1,37 @@
-# Kiểm tra bản nâng cấp portfolio
+# Kiểm tra bản rút gọn và hoạt ảnh
 
-Ngày kiểm tra: 30/09/2026. Ứng dụng được chạy bằng `run.cmd`, Flask tại `http://127.0.0.1:5059/`, debug tắt. Sol 6.1 (`gpt-6.1-sol`) hỗ trợ phần tương tác và kiểm thử; các kết quả trình duyệt dưới đây được kiểm tra lại sau khi tích hợp template và CSS.
+Ngày kiểm tra: 30/09/2026. Flask local tại 127.0.0.1:5059, debug tắt. Một vòng kiểm tra gộp desktop/mobile, sửa caption ảnh và pha chờ animation trong một batch, rồi xác nhận lại.
 
-## Kiểm tra tự động
+## Nội dung và ảnh
 
-- 4/4 nhóm unittest PASS trong môi trường `.venv` của dự án.
-- Trang chủ render đủ 9 ảnh gốc.
-- Route ảnh, CSS, JS, favicon và 3 font trả về nội dung đúng file local.
-- File không tồn tại và các đường dẫn traversal thường/encoded trả về 404.
-- Nội dung và thuộc tính HTML được escape.
-- `node --check static/js/main.js` PASS; `git diff --check` không có lỗi khoảng trắng.
+- Nội dung main từ khoảng 757 xuống 254 từ theo cách đếm khoảng trắng trong HTML đã render.
+- Mở đầu là Mình, hôm nay; ảnh hiện tại đi cùng ảnh trường cũ. Không dùng lộ trình THPT tới đại học làm lời giới thiệu chính.
+- Ngày ấy và Hôm nay nối bằng icon SVG; không còn ký hiệu mũi tên chữ trong HTML.
+- 9 nút album, đủ 9 ảnh gốc. Cả 9 file tải thành công, naturalWidth lớn hơn 0.
+- Caption Hôm nay nằm ngoài vùng ảnh cũ ở viewport 320, 390 và 1440px sau sửa.
+- Các ảnh gốc trong img không bị chỉnh sửa. Không lấy ảnh hoặc file ngoài dự án để publication.
 
-## Kiểm tra trình duyệt sau tích hợp
+## Giao diện và thao tác
 
-- Viewport 320x800, 390x844, 768x1024, 1024x768 và 1440x900: không tràn ngang; các heading, đoạn văn và khung ảnh không vượt vùng nội dung.
-- Ảnh hero hiển thị rõ người, không bị kéo giãn theo kích thước gốc. Ảnh timeline dùng khung contain để giữ nội dung ảnh trường, STEM, học viện và bảo vệ đồ án.
-- Menu mobile: mở, đóng bằng Escape, trả focus về nút menu; chọn Chuyến đi/Góc dịu dàng đóng menu và cập nhật mục đang đọc.
-- Album: mở ảnh từ trang, tải thành công cả 9 file, chuyển bằng nút và phím mũi tên; vòng từ 9 về 1 và từ 1 về 9.
-- Tab từ nút cuối về nút đóng; Shift+Tab từ nút đóng về nút cuối. Focus nằm trong dialog.
-- Đóng bằng nút và Escape: khôi phục overflow và focus về ảnh đã mở.
-- Chế độ giảm chuyển động: CSS scroll-behavior là auto và không cần hiệu ứng để đọc nội dung.
-- Tắt JavaScript và reload: cả 6 tiêu đề phần có display block, opacity 1; nội dung không bị giấu bởi lớp reveal.
-- Các ảnh trong main đều có thuộc tính alt; không có ảnh với src trống. Các URL ảnh, script và stylesheet trong DOM cùng origin localhost.
-- Console không có warning/error trong lượt kiểm tra.
-- Patrick Hand có đủ glyph tiếng Việt trong template và nội dung profile. Font và giấy phép nằm trong dự án.
+- Viewport 320x800, 390x844, 768x1024, 1024x768, 1440x900: không tràn ngang; heading, đoạn văn, dd và figure không vượt vùng nội dung.
+- Chuyển động hero được quan sát qua opacity/transform ở hai thời điểm, sau đó trả về opacity 1 và góc xoay tĩnh của ảnh.
+- Đường kỷ niệm thay đổi scaleY theo vị trí cuộn; chapter-01 được đánh dấu current ở đầu phần Nhìn lại.
+- Dấu chân phản hồi khi focus ảnh động vật, có thay đổi opacity và transform. Hiệu ứng hữu hạn, không chạy loop.
+- Drag ngang trong album ở viewport 390px: ảnh 1 chuyển sang ảnh 2. Phím mũi tên chuyển ngược và vòng từ 1 về 9.
+- Tab ở nút cuối quay về nút đóng, Shift+Tab đi ngược; Escape đóng và trả focus về ảnh vừa mở. Overflow body được khôi phục.
+- Menu mobile mở/đóng bằng Escape, trả focus về nút menu; chọn liên kết đóng menu.
+- Tắt JavaScript và reload: 5 tiêu đề phần có display block, opacity 1; menu là grid, header static và không tràn ngang.
+- Reduced-motion dùng scroll-behavior auto; nội dung không phụ thuộc hoạt ảnh để hiển thị. Mã JS có đường hủy các animation đang chạy khi preference đổi hoặc tab ẩn.
+- Console không có warning/error trong lượt test.
+- Các màu chữ chính được kiểm tra từ computed styles: chữ phụ trên giấy, chữ đỏ gạch trên giấy và chữ phụ trên nền xanh đêm đều có contrast trên 4.5:1. Không thay thế cho audit WCAG đầy đủ.
+- Font Quicksand 500/700 và Patrick Hand có đủ glyph cho nội dung tiếng Việt mới.
 
-## Giới hạn và trạng thái bàn giao
+## Tự động và giới hạn
 
-Kiểm tra bằng trình duyệt in-app trên desktop, với các kích thước viewport mô phỏng. Chưa kiểm tra trên thiết bị vật lý hoặc Safari/Firefox. Đây không phải chứng nhận accessibility hoặc pentest. Bộ dò giao diện dùng chế độ regex dự phòng do thiếu thư viện parser; cảnh báo ảnh lightbox không có src đã được sửa bằng một ảnh khởi tạo hợp lệ.
+6/6 nhóm unittest PASS trong .venv: render, assets, 404/traversal, escaping, cặp quá khứ/hiện tại với SVG và các đích điều hướng/9 nút album. node --check và git diff --check PASS.
 
-Sau kiểm tra, JavaScript được bật lại, giả lập giảm chuyển động và viewport được gỡ. Tab preview được giữ mở để xem. Các ảnh cá nhân gốc không bị chỉnh sửa. Hai file font Caveat thử nghiệm của lượt này được thay bằng Patrick Hand và không đưa vào commit.
+Kiểm tra bằng trình duyệt in-app trên desktop và viewport mô phỏng; drag ngang dùng input trình duyệt, chưa xác nhận trên điện thoại vật lý hoặc Safari/Firefox. Cơ chế pause của tab ẩn được kiểm tra qua mã, không khẳng định đo FPS trên thiết bị yếu. Preview cuối được trả về viewport bình thường, JavaScript bật và không giữ giả lập reduced-motion.
 
-Ảnh xem trước: [desktop](preview-desktop.png), [timeline](preview-journey.png), [mobile](preview-mobile.png).
+Tham khảo local được ghi trong DESIGN.md. Không sửa hoặc publication bất kỳ file nào trong D:/Code/UI-UX.
+
+Ảnh xem trước: [desktop](preview-desktop.png), [nhìn lại](preview-journey.png), [mobile](preview-mobile.png).

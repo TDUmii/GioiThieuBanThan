@@ -39,6 +39,26 @@ class PortfolioRoutesTest(unittest.TestCase):
         self.assertEqual(response.mimetype, "text/html")
         self.assertEqual(PageParser(response.get_data(as_text=True)).images, IMAGES)
 
+    def test_present_and_past_use_a_drawn_arrow_and_short_copy(self):
+        html = self.client.get("/").get_data(as_text=True)
+        self.assertIn('class="fact-transition"', html)
+        self.assertIn('<span>Ngày ấy</span>', html)
+        self.assertIn('<span>Hôm nay</span>', html)
+        self.assertIn('class="icon-flow-line"', html)
+        self.assertIn('data-photo-then', html)
+        self.assertIn('data-photo-now', html)
+        self.assertNotIn('->', html)
+        self.assertNotIn('Bốn dấu mốc, bốn phiên bản', html)
+        self.assertNotIn('data-reveal', html)
+
+    def test_album_and_navigation_keep_valid_targets(self):
+        html = self.client.get("/").get_data(as_text=True)
+        self.assertEqual(html.count('js-lightbox-trigger'), 9)
+        for target in ('top', 'about', 'journey', 'travel', 'animals'):
+            self.assertIn('id="' + target + '"', html)
+        self.assertNotIn('href="#contact"', html)
+        self.assertIn('aria-label="Về đầu trang"', html)
+
     def test_original_images_and_static_files(self):
         files = [("/img/" + name, ROOT / "img" / name) for name in sorted(IMAGES)]
         files += [
@@ -77,8 +97,12 @@ class PortfolioRoutesTest(unittest.TestCase):
         payload = '<script>alert("profile")</script><img src=x onerror="alert(1)">'
         profile = copy.deepcopy(app_module.PROFILE)
         profile["hero_title"] = payload
+        profile["hero_heading"] = payload
+        profile["hero_accent"] = payload
         profile["hero_description"] = payload
         profile["hero_alt"] = payload
+        profile["facts"][0]["from_label"] = payload
+        profile["facts"][0]["to_label"] = payload
         profile["timeline"][0]["caption"] = payload
         with patch.object(app_module, "PROFILE", profile):
             response = self.client.get("/")

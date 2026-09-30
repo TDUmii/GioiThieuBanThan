@@ -9,13 +9,14 @@
   var lightbox = document.querySelector('#lightbox');
   var lightboxImage = document.querySelector('#lightbox-image');
   var lightboxTitle = document.querySelector('#lightbox-title');
-  var lightboxCaption = document.querySelector('#lightbox-caption');
   var lightboxCount = document.querySelector('#lightbox-count');
   var lightboxStatus = document.querySelector('#lightbox-status');
   var gallery = Array.from(document.querySelectorAll('.js-lightbox-trigger[data-image]'));
   var activeImage = 0;
   var lastFocusedElement = null;
   var previousOverflow = '';
+  var imageDirection = 0;
+  var albumAnimation = null;
 
   function setMenu(open) {
     menuToggle.setAttribute('aria-expanded', String(open));
@@ -57,43 +58,94 @@
     });
   }
 
-  // Readable immediately, including without observers or animation support.
-  var revealItems = document.querySelectorAll('[data-reveal]');
-  revealItems.forEach(function (item) {
-    item.classList.add('is-visible');
-  });
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if ('IntersectionObserver' in window && !reducedMotion.matches) {
-    var revealObserver = new IntersectionObserver(function (entries, observer) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) {
-          return;
-        }
-        observer.unobserve(entry.target);
-        if (typeof entry.target.animate === 'function' && !reducedMotion.matches) {
-          var delay = Number(entry.target.getAttribute('data-reveal-delay')) || 0;
-          entry.target.animate([
-            { opacity: 0, transform: 'translateY(16px)' },
-            { opacity: 1, transform: 'translateY(0)' }
-          ], { duration: 500, delay: Math.max(0, Math.min(delay, 240)), easing: 'ease-out' });
-        }
-      });
-    }, { threshold: 0 });
+  var runningAnimations = new Set();
+  var scene = document.querySelector('[data-hero-scene]');
+  var heroPlayed = false;
+  var paws = Array.from(document.querySelectorAll('.paw-trail span'));
+  var pawAnimations = [];
 
-    revealItems.forEach(function (item) {
-      revealObserver.observe(item);
-    });
+  function playMotion(element, frames, options) {
+    if (!element || reducedMotion.matches || document.hidden || typeof element.animate !== 'function') {
+      return null;
+    }
+    var animation = element.animate(frames, Object.assign({ fill: 'backwards' }, options));
+    runningAnimations.add(animation);
+    animation.onfinish = animation.oncancel = function () {
+      runningAnimations.delete(animation);
+    };
+    return animation;
   }
 
-  function showImage(index) {
+  // Two photographs placed on a page: the old memory, then the present.
+  // Nothing is hidden before this finite, optional sequence starts.
+  function placePhotographs() {
+    if (!scene || heroPlayed || document.hidden) { return; }
+    heroPlayed = true;
+    var past = scene.querySelector('[data-photo-then]');
+    var present = scene.querySelector('[data-photo-now]');
+    [past, present].forEach(function (photo, index) {
+      if (!photo) { return; }
+      var resting = getComputedStyle(photo).transform;
+      playMotion(photo, [
+        { opacity: .45, transform: index ? 'translate(18px, 26px) rotate(9deg) scale(.94)' : 'translate(-18px, 14px) rotate(-15deg) scale(.94)' },
+        { opacity: 1, transform: resting }
+      ], { duration: 620, delay: index * 100, easing: 'cubic-bezier(.16, 1, .3, 1)' });
+    });
+    playMotion(scene.querySelector('.icon-flow-line'), [
+      { strokeDashoffset: '1', opacity: .2 },
+      { strokeDashoffset: '0', opacity: 1 }
+    ], { duration: 420, delay: 300, easing: 'ease-out' });
+  }
+
+  if (scene && 'IntersectionObserver' in window) {
+    var sceneObserver = new IntersectionObserver(function (entries, observer) {
+      if (entries.some(function (entry) { return entry.isIntersecting; })) {
+        placePhotographs();
+        if (heroPlayed) { observer.disconnect(); }
+      }
+    }, { threshold: .1 });
+    sceneObserver.observe(scene);
+  } else {
+    placePhotographs();
+  }
+
+  function greetWithPaws() {
+    if (pawAnimations.some(function (animation) { return animation.playState === 'running'; })) { return; }
+    pawAnimations = paws.map(function (paw, index) {
+      var resting = getComputedStyle(paw).transform;
+      return playMotion(paw, [
+        { opacity: .2, transform: 'translateY(7px) scale(.8)' },
+        { opacity: 1, transform: resting, offset: .45 },
+        { opacity: .45, transform: resting }
+      ], { duration: 420, delay: index * 70, easing: 'ease-out' });
+    }).filter(Boolean);
+  }
+  var animalPhoto = document.querySelector('[data-animal-photo]');
+  if (animalPhoto) {
+    animalPhoto.addEventListener('pointerenter', greetWithPaws);
+    animalPhoto.addEventListener('focus', greetWithPaws);
+  }
+  function cancelMotion() {
+    runningAnimations.forEach(function (animation) { animation.cancel(); });
+    runningAnimations.clear();
+  }
+  reducedMotion.addEventListener('change', function () {
+    if (reducedMotion.matches) { cancelMotion(); }
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { cancelMotion(); }
+    else if (scene && !heroPlayed && scene.getBoundingClientRect().top < window.innerHeight && scene.getBoundingClientRect().bottom > 0) { placePhotographs(); }
+  });
+
+  function showImage(index, direction) {
+    if (albumAnimation) { albumAnimation.cancel(); }
+    imageDirection = direction === undefined ? Math.sign(index - activeImage) : direction;
     activeImage = (index + gallery.length) % gallery.length;
     var trigger = gallery[activeImage];
     var caption = trigger.getAttribute('data-caption') || '';
     if (lightboxTitle) {
       lightboxTitle.textContent = trigger.getAttribute('data-title') || caption || 'Xem ảnh';
-    }
-    if (lightboxCaption) {
-      lightboxCaption.textContent = caption;
     }
     if (lightboxCount) {
       lightboxCount.textContent = (activeImage + 1) + ' / ' + gallery.length;
@@ -110,10 +162,16 @@
       if (lightboxStatus) {
         lightboxStatus.textContent = '';
       }
+      if (lightbox.open) {
+        albumAnimation = playMotion(lightboxImage, [
+          { opacity: .6, transform: 'translateX(' + imageDirection * 24 + 'px)' },
+          { opacity: 1, transform: 'translateX(0)' }
+        ], { duration: 220, easing: 'cubic-bezier(.16, 1, .3, 1)' });
+      }
     });
     lightboxImage.addEventListener('error', function () {
       if (lightboxStatus) {
-        lightboxStatus.textContent = 'Không tải được ảnh. Bạn có thể thử ảnh khác hoặc đóng cửa sổ.';
+        lightboxStatus.textContent = 'Không tải được ảnh. Thử ảnh khác.';
       }
     });
     gallery.forEach(function (trigger, index) {
@@ -124,7 +182,7 @@
         }
         closeMenu();
         lastFocusedElement = trigger;
-        showImage(index);
+        showImage(index, 0);
         previousOverflow = document.body.style.overflow;
         lightbox.hidden = false;
         lightbox.showModal();
@@ -164,6 +222,7 @@
       }
     });
     lightbox.addEventListener('close', function () {
+      if (albumAnimation) { albumAnimation.cancel(); }
       document.body.style.overflow = previousOverflow;
       if (lastFocusedElement && lastFocusedElement.isConnected) {
         lastFocusedElement.focus({ preventScroll: true });
@@ -187,20 +246,53 @@
     lightbox.addEventListener('pointercancel', function () {
       backdropPointer = null;
     });
+
+    // Adapted gesture pattern from the local Sneaker-Wheel project.
+    var swipeStart = null;
+    lightboxImage.draggable = false;
+    lightboxImage.addEventListener('pointerdown', function (event) {
+      if (!event.isPrimary || event.button !== 0) { return; }
+      swipeStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
+      lightboxImage.setPointerCapture(event.pointerId);
+    });
+    lightboxImage.addEventListener('pointerup', function (event) {
+      if (!swipeStart || swipeStart.id !== event.pointerId) { return; }
+      var dx = event.clientX - swipeStart.x;
+      var dy = event.clientY - swipeStart.y;
+      swipeStart = null;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+        showImage(activeImage + (dx < 0 ? 1 : -1));
+      }
+    });
+    lightboxImage.addEventListener('pointercancel', function () { swipeStart = null; });
   }
 
   var progress = document.querySelector('#reading-progress');
   var sections = siteNav ? Array.from(siteNav.querySelectorAll('a[href^="#"]')).map(function (link) {
     return { link: link, section: document.getElementById(link.getAttribute('href').slice(1)) };
   }).filter(function (item) {
-    return item.section && ['about', 'journey', 'travel', 'animals', 'contact'].includes(item.section.id);
+    return item.section;
   }) : [];
+  var timeline = document.querySelector('[data-timeline]');
+  var timelineFill = document.querySelector('[data-timeline-fill]');
+  var chapters = timeline ? Array.from(timeline.querySelectorAll('.timeline-item')) : [];
   var scrollQueued = false;
 
   function updateScroll() {
     scrollQueued = false;
     var scrollTop = window.scrollY;
     var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    var readingLine = window.innerHeight * .56;
+    if (timeline && timelineFill) {
+      var bounds = timeline.getBoundingClientRect();
+      var fraction = bounds.height ? Math.max(0, Math.min(1, (readingLine - bounds.top) / bounds.height)) : 0;
+      timelineFill.style.transform = 'scaleY(' + fraction + ')';
+      chapters.forEach(function (chapter) {
+        var chapterBounds = chapter.getBoundingClientRect();
+        chapter.classList.toggle('is-past', chapterBounds.bottom < readingLine);
+        chapter.classList.toggle('is-current', chapterBounds.top <= readingLine && chapterBounds.bottom >= readingLine);
+      });
+    }
     if (header) {
       header.classList.toggle('is-scrolled', scrollTop > 20);
     }
