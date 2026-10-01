@@ -1,18 +1,20 @@
 # Kiểm tra nội dung và giao diện
 
-## Trò nhỏ xuyên suốt album ngày 01/10/2026
+## Easter egg thay các trò có luật ngày 01/10/2026
 
-- Có bốn tương tác: đóng dấu ảnh, xếp thứ tự bốn dấu mốc, ghép ba cặp ảnh và theo sáu bước chân. Các trò nằm cạnh nội dung tương ứng, mặc định thu gọn; Sổ ghé chơi nằm cuối trang.
-- Desktop: đóng dấu hai lần vẫn chỉ tính một dấu; chọn sai thứ tự có gợi ý và không tăng điểm; chọn đủ bốn mốc đúng đạt dấu thứ hai. Ghép đủ sáu tile thành ba cặp đạt dấu thứ ba. Theo sáu bước chân bằng Enter đạt dấu thứ tư, hiện lời cảm ơn và trạng thái 4/4.
-- Memory: thử ghép sai, từ chối chọn thêm trong lúc chờ, timer tự úp hai ảnh; chơi lại khi đang chờ xóa lượt và timer. Đóng/mở lại bằng Enter, kể cả nhanh, không giữ ảnh mở hoặc lời hướng dẫn cũ. Đã sửa callback đóng summary trước default action để không phụ thuộc toggle event bị gộp.
-- Keyboard: summary native mở bằng Enter; tile ảnh lật bằng Enter; dấu chân chuyển focus sang vị trí tiếp theo. Album gốc vẫn đóng bằng Escape và trả focus về ảnh mở; menu mobile đóng bằng Escape.
-- Chơi lại cả chuyến xóa cả bốn dấu, các cặp ảnh, thứ tự đã chọn, dấu trên ảnh và lời cảm ơn. Chơi lại riêng từng trò vẫn giữ dấu đã đạt của chuyến hiện tại.
-- Khi ba trò mở, viewport 320, 390, 580, 768, 1024, 1440px không tràn ngang; nút, lời kể, slot và sổ dấu không tràn vùng chứa. Xem trực tiếp desktop 1440x900 và mobile 390x844, các tile và dấu chân vẫn đủ lớn để chạm.
-- Sáu ảnh trong memory tải thành công, naturalWidth lớn hơn 0 và opacity về 1 sau lật. 9 nút xem ảnh gốc vẫn độc lập với trò chơi; không chỉnh sửa file img.
-- Giả lập reduced-motion: ảnh ở opacity 1, dấu kỷ niệm xuất hiện ở transform tĩnh và điểm vẫn tăng. Tắt JavaScript rồi reload: cả năm vùng trò có hidden/display none, năm phần nội dung vẫn có mặt, nav mobile là grid, không tràn ngang. Đã trả về JavaScript bật và không giữ giả lập reduced-motion.
-- 9/9 unittest Flask và 6/6 Node test PASS. Node kiểm tra shuffle, thứ tự sai/lặp, khóa memory khi ghép sai, settle/reset, đổi dấu chân và tính dấu duy nhất. node --check, git diff --check PASS; console không có warning/error trong lượt kiểm tra.
-- Bộ quét layout vẫn DEGRADED vì thiếu parser; không dùng nó để khẳng định giao diện sạch. Chứng cứ ở trên lấy từ trạng thái DOM, input thật và ảnh chụp trình duyệt.
-- Preview: [đầu trang](preview-play-hero.png), [ghép ảnh](preview-play-memory.png), [dấu chân và sổ dấu](preview-play-paw.png), [mobile](preview-play-mobile.png). Chưa thử trên điện thoại vật lý hoặc Safari/Firefox; việc hủy animation khi tab ẩn được kiểm tra qua code, không đo FPS trên thiết bị yếu.
+- Gỡ giao diện, controller và test của các trò đóng dấu, xếp thứ tự, ghép ảnh, dấu chân và sổ điểm. Gỡ bốn ảnh preview của bản trò chơi; các file này vẫn có thể khôi phục từ Git. Không sửa profile_data.py hoặc bất kỳ ảnh gốc nào trong img.
+- Mèo tam thể là ảnh raster alpha tái sử dụng từ Meow-Login, có khung nghỉ và khung mở miệng. Desktop 1440px: mèo nhỏ nằm ở góc trái dưới, ngoài vùng chữ. Mobile 390px: nằm cạnh CTA, không giao nhau với nút Nhìn lại. Menu hoặc album mở thì mèo ẩn.
+- Audio sau reload có paused=true, readyState=0, currentTime=0 (preload none). Bấm mèo bằng chuột hoặc Enter: clip OGG local được phát, paused=false, readyState=4, currentTime tăng, duration khoảng 1.174 giây, trạng thái Meo. Khi kết thúc, mèo về khung nghỉ, audio dừng và currentTime về 0. Không khẳng định đã nghe qua loa vật lý chỉ từ các trạng thái này.
+- Bấm liên tiếp không chồng hoặc khởi động lại tiếng trong cùng lượt. Nút tắt tiếng dừng ngay clip đang chạy; bấm mèo khi mute vẫn đổi biểu cảm nhưng audio paused=true. Bật lại và Enter phát được tiếng. Có guard theo generation cho promise phát âm thanh bị hủy, tránh callback cũ ghi đè trạng thái mute.
+- Có đúng 9 wrapper ảnh và 18 lớp bàn chân trang trí. Tài nguyên tải được, naturalWidth lớn hơn 0, nền trong suốt. Hai lớp có z-index 1 và 3, nút ảnh ở lớp 2; trang trí pointer-events none, không lấy focus.
+- Chuỗi sáu khung chụp từ hoạt ảnh thật ghi nhận: tay đi từ sau mép ảnh, ngón chân chạm phía trước, opacity lên 1, rồi về 0. Sau khoảng 1.1 giây, class is-paw-reaching được gỡ dù con trỏ vẫn trên ảnh. Không chạy vòng lặp hoặc pointer-follow liên tục.
+- Reduced-motion: bàn tay chỉ hiện/ẩn tại một transform không đổi trong phần hiện; khung tiếp theo opacity=0 và class hoạt động được gỡ. Các chuyển động vươn/nhún bị loại bỏ, scroll-behavior=auto. Guard ẩn tab/rời trang được kiểm tra qua code, chưa mô phỏng được tab ẩn để chứng minh trực tiếp.
+- Khi JavaScript tắt rồi reload: mèo hidden, không có lớp bàn tay, vẫn có đủ 5 tiêu đề phần và 9 nút ảnh, không tràn ngang. Đã bật lại JavaScript và xóa giả lập reduced-motion.
+- Sau sửa mép bàn tay: viewport 320, 390, 580, 768, 1024, 1440px không tràn ngang, không có heading/p/dd tràn chữ. Ba ảnh du lịch vẫn bằng nhau và vuông; không thay bố cục đã cân.
+- Album desktop mở và chuyển 1/9 sang 2/9; trên mobile mở ảnh Giữa màu xanh ở 6/9, ArrowRight sang 7/9 đúng /img/dulich2.jpg. Escape đóng và trả focus về nút ảnh đã mở. Mở album hủy tay mèo đang chạy. Menu mobile mở, ẩn mèo, chọn Chuyến đi đóng menu đúng.
+- Kiểm tra bằng chuột/bàn phím thật trong trình duyệt in-app và viewport mô phỏng. Input.dispatchTouchEvent không được trình duyệt này hỗ trợ; nhánh pointerdown touch được kiểm tra qua code, không coi viewport mobile là chứng minh thao tác cảm ứng. Chưa thử trên điện thoại vật lý, Safari/Firefox hoặc loa vật lý, chưa đo FPS thiết bị yếu.
+- 10/10 unittest Flask PASS, bao gồm nguồn ảnh/static, HTML escaping, traversal, không còn trò có luật, audio không autoplay và guard hiệu ứng. node --check cho main.js/easter-eggs.js và git diff --check PASS. Console không có warning/error trong lượt kiểm tra.
+- Preview hiện tại: [mèo ở góc](preview-easter-cat.png), [bàn tay chạm ảnh](preview-easter-paw.png), [mobile](preview-easter-mobile.png). Trình duyệt được trả về viewport mặc định, JavaScript bật và không giữ giả lập chuyển động.
 
 ## Cân lại ảnh Chuyến đi ngày 01/10/2026
 

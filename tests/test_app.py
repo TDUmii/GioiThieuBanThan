@@ -76,28 +76,43 @@ class PortfolioRoutesTest(unittest.TestCase):
         self.assertEqual(html.count('<article class="travel-card">'), 3)
         self.assertNotIn('travel-card--wide', html)
 
-    def test_optional_games_are_scoped_and_hidden_until_initialized(self):
+    def test_easter_eggs_are_optional_not_game_panels(self):
         html = self.client.get("/").get_data(as_text=True)
-        self.assertEqual(html.count('data-play-zone'), 5)
-        self.assertEqual(html.count('class="memory-tile"'), 6)
-        self.assertEqual(html.count('data-paw-cell='), 9)
-        self.assertEqual(html.count('data-order="'), 4)
-        self.assertEqual(html.count('data-quest="'), 4)
-        self.assertIn('data-order-panel hidden', html)
-        self.assertIn('data-memory-panel hidden', html)
-        self.assertIn('data-paw-panel hidden', html)
-        self.assertIn('/static/js/play.js', html)
+        self.assertIn('data-cat-companion hidden', html)
+        self.assertEqual(html.count('data-corner-cat'), 1)
+        self.assertIn('aria-label="Vuốt ve mèo"', html)
+        self.assertIn('data-cat-audio preload="none"', html)
+        self.assertIn('data-paw-src="/static/eggs/cat-paw.webp"', html)
+        self.assertNotIn('autoplay', html)
+        for removed in ('data-play-zone', 'memory-tile', 'data-quest', 'data-paw-cell', '/static/js/play.js', 'Sổ ghé chơi'):
+            self.assertNotIn(removed, html)
+
+    def test_easter_egg_sources_guard_sound_and_finite_motion(self):
+        script = (ROOT / 'static/js/easter-eggs.js').read_text(encoding='utf-8')
+        self.assertEqual(script.count('audio.play()'), 1)
+        self.assertIn("cat.addEventListener('click'", script)
+        self.assertIn("audio.addEventListener('ended', finishCat)", script)
+        self.assertIn("sound.addEventListener('click'", script)
+        self.assertIn("prefers-reduced-motion: reduce", script)
+        self.assertIn("document.addEventListener('visibilitychange'", script)
+        self.assertIn('setTimeout(stopPaw', script)
+        self.assertIn("button.addEventListener('focus', reach)", script)
+        self.assertIn("event.pointerType === 'touch'", script)
+        for forbidden in ('setInterval', 'localStorage', 'sessionStorage', 'fetch(', 'requestAnimationFrame'):
+            self.assertNotIn(forbidden, script)
 
     def test_original_images_and_static_files(self):
         files = [("/img/" + name, ROOT / "img" / name) for name in sorted(IMAGES)]
         files += [
             ("/static/css/style.css", ROOT / "static/css/style.css"),
             ("/static/js/main.js", ROOT / "static/js/main.js"),
-            ("/static/js/play.js", ROOT / "static/js/play.js"),
-            ("/static/css/play.css", ROOT / "static/css/play.css"),
+            ("/static/js/easter-eggs.js", ROOT / "static/js/easter-eggs.js"),
+            ("/static/css/easter-eggs.css", ROOT / "static/css/easter-eggs.css"),
             ("/static/favicon.svg", ROOT / "static/favicon.svg"),
         ]
         files += [("/static/fonts/" + path.name, path) for path in (ROOT / "static/fonts").glob("*.ttf")]
+        files += [("/static/eggs/" + name, ROOT / "static/eggs" / name) for name in
+                  ('cat-rest.webp', 'cat-meow.webp', 'cat-paw.webp', 'meow.ogg', 'meow.mp3')]
         for url, path in files:
             with self.subTest(url=url):
                 response = self.client.get(url)
@@ -147,7 +162,6 @@ class PortfolioRoutesTest(unittest.TestCase):
         self.assertIn(str(escape(payload)), html)
         self.assertIn('alt="' + str(escape(payload)) + '"', html)
         self.assertIn('data-caption="' + str(escape(payload)) + '"', html)
-        self.assertIn('data-photo-name="' + str(escape(payload)) + '"', html)
 
 
 if __name__ == "__main__":

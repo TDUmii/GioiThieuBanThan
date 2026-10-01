@@ -16,13 +16,15 @@ Icon SVG cùng viewBox, nét 2.2 và đầu nét bo tròn. Mũi tên uốn cong 
 
 Không thêm thư viện hoặc vòng animation chạy vô hạn. requestAnimationFrame chỉ gom sự kiện cuộn/resize; hiệu ứng finite được hủy khi tab ẩn hoặc bật reduced-motion. Mặc định nội dung và ảnh luôn hiển thị. Bản không JavaScript vẫn có menu và đọc được toàn bộ album.
 
-## Ghé chơi trong album
+## Easter egg, không phải trò có luật
 
-Thêm lớp tương tác tự nguyện từ đầu tới cuối: đóng dấu lên ảnh hiện tại, xếp bốn dấu mốc theo thứ tự bài viết, ghép ba cặp ảnh chuyến đi và theo sáu bước chân. Ba trò dùng details native, mặc định thu gọn để ảnh và lời kể vẫn dẫn đường. Sổ ghé chơi ở cuối giữ bốn dấu hoàn thành trong lần xem hiện tại; không dùng cookie, storage, API, âm thanh hoặc giới hạn thời gian. Chơi lại một trò giữ dấu đã đạt; Chơi lại cả chuyến xóa toàn bộ tiến độ.
+Thay các trò và sổ điểm bằng những bất ngờ nhỏ, đúng yêu cầu ngày 01/10/2026: người xem có cảm giác một chú mèo đang tò mò cùng mình lật album. Nội dung cá nhân, không phải thao tác chơi, vẫn là trọng tâm. Không thêm lời mời dài hoặc hướng dẫn có luật.
 
-Motion mang chất giấy và mực: dấu được đặt lên ảnh, ảnh mở theo nét cắt ngang, dấu chân phản hồi khi chạm, lời cảm ơn hiện khi đủ bốn dấu. Không có confetti toàn màn hình, cursor giả hoặc motion loop. Hiệu ứng hữu hạn, hủy khi tab ẩn hoặc bật reduced-motion; reduced-motion vẫn có màu, dấu và lời phản hồi tĩnh. Timer 850ms chỉ dùng để úp lại hai ảnh ghép sai, được xóa khi chơi lại, đóng trò hoặc tab ẩn.
+Điểm nhấn là bàn chân mèo có cổ tay giấu sau mép ảnh, vươn ra, chạm mặt ảnh rồi tự rút trong 1100ms. Chỉ chạy khi pointer/focus khám phá ảnh, không tự chạy theo cuộn và không bám liên tục theo chuột. Hai lớp ảnh raster alpha, z-index và clip giúp ngón chân đi qua phía trước trong khi phần cổ tay ở phía sau. Mỗi ảnh có cooldown 1800ms; chỉ một bàn tay hoạt động một lúc, không chiếm click hoặc thay con trỏ.
 
-Tách giao diện trò trong templates/_play.html, style trong static/css/play.css, state và controller trong static/js/play.js. Logic trò được test bằng Node built-in, không thêm package. Nếu JavaScript không khởi tạo được, toàn bộ vùng trò vẫn hidden; năm phần nội dung và menu không JavaScript tiếp tục đọc được.
+Mèo ở góc trang trên desktop rộng, bên cạnh CTA hero trên màn hình nhỏ để không che lời kể. Mèo yên khi không tương tác, bấm mới đổi khung mở miệng và phát tiếng thật. Không âm thanh khi hover, không chồng nhiều tiếng; có nút tắt tiếng và trạng thái đọc màn hình. Biểu cảm hữu hạn, dừng khi tab ẩn hoặc mở album. Reduced-motion không nhún mèo, tay chỉ hiện/ẩn 450ms ở vị trí tĩnh. Không thêm dependency, storage hoặc vòng lặp animation.
+
+Tách style và controller trong static/css/easter-eggs.css và static/js/easter-eggs.js. Tái sử dụng chọn lọc ba ảnh alpha của Meow-Login và tiếng meo CC0 đã có trong dự án đó, kèm nguồn và giấy phép ở static/eggs/ATTRIBUTION.md. Không tạo tranh mèo bằng CSS/SVG và không cần tạo ảnh mới.
 
 ## Layout
 
@@ -32,10 +34,10 @@ Phần Chuyến đi dùng ba cột bằng nhau, ảnh vuông cùng kích thướ
 
 ## Tham khảo local
 
-Đọc mã hiện tại ở D:/Code/UI-UX, không sửa các dự án đó và không sao chép ảnh, font hoặc cả thư mục sang đây:
+Đọc mã hiện tại ở D:/Code/UI-UX, không sửa các dự án đó hoặc sao chép cả thư mục sang đây:
 
 - Wind-404/js/wind.js: nguyên tắc nét SVG vẽ theo độ dài và dừng hoạt ảnh khi tab ẩn. Áp dụng vào nét nối hai ảnh và quản lý motion.
 - Sneaker-Wheel/js/wheel.js: ngưỡng vuốt, phân biệt trục ngang/dọc và chuyển trạng thái có hướng. Áp dụng cho album ảnh.
-- Meow-Login/js/paw.js: phản hồi dấu chân với pointer/focus. Viết phiên bản SVG ngắn, hữu hạn cho phần động vật, không lấy ảnh mèo hoặc controller của dự án gốc.
+- Meow-Login/js/paw.js và assets/cats, assets/interactive, assets/audio: ý tưởng tay mèo vươn từ phía sau, các khung mèo tam thể, bàn chân alpha và tiếng meo. Viết controller hữu hạn riêng cho album, không sao chép controller gốc. Chỉ các file tài nguyên thực sự dùng được đưa vào static/eggs kèm attribution và giấy phép.
 
 Các ảnh và nội dung gốc của dự án vẫn riêng tư; publication chỉ bao gồm GioiThieuBanThan.

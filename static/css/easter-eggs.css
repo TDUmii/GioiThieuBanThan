@@ -1,0 +1,33 @@
+/* A quiet companion, not a game panel. Small screens park it beside the hero CTA. */
+.cat-companion[hidden] { display: none; }
+.hero-copy { position: relative; }
+.cat-companion { position: absolute; right: 4px; bottom: 0; width: 72px; z-index: 8; }
+.corner-cat { display: block; width: 100%; min-height: 44px; border-radius: 16px; }
+.cat-art { position: relative; display: block; aspect-ratio: 800 / 918; transform-origin: 50% 90%; }
+.cat-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.cat-meow { visibility: hidden; }
+.corner-cat.is-meowing .cat-meow { visibility: visible; }
+.corner-cat.is-meowing .cat-rest { visibility: hidden; }
+.cat-pupil { position: absolute; top: 31%; left: 33.6%; width: 4.4%; height: 3.6%; border-radius: 50%; background: #503025; }
+.cat-pupil--right { top: 28.8%; left: 53%; }
+.cat-sound { position: absolute; top: -14px; right: -8px; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: var(--ink); background: var(--surface); opacity: 0; pointer-events: none; transition: opacity .15s; }
+.cat-sound .icon { width: 19px; height: 19px; }
+.cat-sound .icon--sound-off { display: none; }
+.cat-sound[aria-pressed="true"] .icon--sound { display: none; }
+.cat-sound[aria-pressed="true"] .icon--sound-off { display: block; }
+.cat-companion:hover .cat-sound, .cat-companion:focus-within .cat-sound, .cat-sound[aria-pressed="true"] { opacity: 1; pointer-events: auto; }
+.cat-sound:hover { color: var(--coral); }
+html:has(.lightbox[open]) .cat-companion, html:has(.site-nav.is-open) .cat-companion { visibility: hidden; }
+
+/* Two real alpha-art layers make the wrist stay behind the photo and the toes pat it. */
+.photo-peek { position: relative; isolation: isolate; min-width: 0; overflow: clip; overflow-clip-margin: 14px; }
+.photo-peek > .js-lightbox-trigger { z-index: 2; }
+.photo-paw { --paw-size: clamp(56px, 14%, 78px); position: absolute; top: 22%; right: calc(var(--paw-size) * -.65); width: var(--paw-size); height: auto; max-width: none; aspect-ratio: 800 / 846; object-fit: contain; background: transparent; opacity: 0; pointer-events: none; transform: translateX(-36px) rotate(-78deg); transform-origin: 50% 80%; }
+.photo-paw--back { z-index: 1; }
+.photo-paw--front { z-index: 3; clip-path: inset(0 0 43% 0); }
+@media (min-width: 1280px) {
+  .cat-companion { position: fixed; left: 18px; right: auto; bottom: max(18px, env(safe-area-inset-bottom)); width: 78px; }
+}
+@media (max-width: 580px) { .cat-companion { width: 62px; right: 8px; bottom: -2px; } }
+@media (pointer: coarse) { .cat-sound { width: 44px; height: 44px; top: -24px; opacity: 1; pointer-events: auto; } }
+@media (prefers-reduced-motion: reduce) { .cat-sound { transition: none; } }

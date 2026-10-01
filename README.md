@@ -4,11 +4,11 @@ Portfolio cá nhân bằng ảnh: mình ở hiện tại, những kỷ niệm v�
 
 ## Xem trước
 
-![Giao diện desktop](docs/preview-desktop.png)
+![Giao diện với người bạn nhỏ](docs/preview-easter-cat.png)
 
 [Về mình](docs/preview-about.png) | [Nhìn lại](docs/preview-journey.png) | [Chuyến đi](docs/preview-travel.png) | [Giao diện điện thoại](docs/preview-mobile.png)
 
-[Trò ghép ảnh](docs/preview-play-memory.png) | [Trò dấu chân](docs/preview-play-paw.png) | [Chơi trên mobile](docs/preview-play-mobile.png)
+[Tay mèo chạm ảnh](docs/preview-easter-paw.png) | [Mèo trên mobile](docs/preview-easter-mobile.png)
 
 ## Chạy local
 
@@ -53,23 +53,24 @@ JavaScript, CSS, ảnh và font được phục vụ từ dự án. Patrick Hand
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 node --check static/js/main.js
-node --check static/js/play.js
-node --test tests/test_play.cjs
+node --check static/js/easter-eggs.js
 ```
 
 Các kiểm tra Python dùng Flask test client cho trang chủ, 9 ảnh gốc, CSS/JS, file không tồn tại, đường dẫn vượt thư mục và HTML escaping. `node --check` chỉ kiểm tra cú pháp JS; kiểm tra menu, dialog, bàn phím và responsive cần thực hiện thêm trên trình duyệt sau khi ghép giao diện.
 
-Có thêm kiểm tra cặp Ngày ấy/Hôm nay, icon SVG, đủ 9 nút ảnh và các đích điều hướng. [DESIGN.md](DESIGN.md) ghi cách rút gọn nội dung và các mẫu hoạt ảnh tham khảo từ dự án UI-UX local; không sao chép thư mục hoặc tài nguyên của các dự án đó.
+Có thêm kiểm tra cặp Ngày ấy/Hôm nay, icon SVG, đủ 9 nút ảnh, các đích điều hướng và điều kiện an toàn của easter egg. [DESIGN.md](DESIGN.md) ghi các mẫu hoạt ảnh tham khảo từ dự án UI-UX local. Chỉ tái sử dụng ba ảnh mèo/bàn chân, hai file âm thanh và giấy phép liên quan của Meow-Login; không sao chép cả dự án tham khảo.
 
 Kết quả kiểm tra trình duyệt sau tích hợp được ghi ở [docs/QA.md](docs/QA.md). Đây là kiểm tra trên trình duyệt desktop với các viewport mô phỏng, không phải kiểm tra trên điện thoại vật lý hoặc đánh giá WCAG đầy đủ.
 
-## Ghé chơi trong album
+## Những bất ngờ nhỏ
 
-Có bốn tương tác tùy chọn từ đầu tới cuối: đóng dấu kỷ niệm ở hero, xếp lại bốn dấu mốc, lật sáu ảnh tìm ba cặp và theo sáu bước chân. Các trò mở bằng summary native, dùng được với chạm, chuột và bàn phím. Trò dấu chân chuyển focus sang bước tiếp theo khi chơi bằng Enter; không có âm thanh hoặc giới hạn thời gian.
+Không có luật chơi, điểm, nhiệm vụ hoặc bảng trò. Mèo tam thể ngồi ở góc trái dưới trên màn hình rộng từ 1280px; với màn hình nhỏ hơn, mèo nằm cạnh nút Nhìn lại để không che nội dung đang đọc. Bấm hoặc dùng Enter/Space để vuốt ve: mèo mở miệng, nhún nhẹ và kêu. Tiếng chỉ phát sau thao tác chủ động, không phát khi tải trang hoặc hover. Nút loa xuất hiện khi hover/focus (luôn hiện với con trỏ cảm ứng) và có thể tắt tiếng trong lần xem hiện tại.
 
-Sổ ghé chơi ở cuối trang giữ dấu của những trò đã hoàn thành trong lần xem hiện tại. Chơi lại một trò giữ dấu đã đạt; Chơi lại cả chuyến xóa cả bốn dấu và tiến độ. Reload cũng bắt đầu một chuyến mới. Không dùng cookie, localStorage, sessionStorage hoặc API online.
+Khi đưa chuột lên một trong 9 ảnh, bàn tay mèo vươn từ mép phải, chạm nhẹ rồi tự rút về sau khoảng 1.1 giây, kể cả khi con trỏ vẫn đứng trên ảnh. Hai lớp ảnh alpha giữ cổ tay phía sau và ngón chân phía trước ảnh. Hiệu ứng không bắt click hoặc chặn cuộn; nút vẫn mở album gốc. Bàn phím focus ảnh và pointerdown cảm ứng cũng kích hoạt hiệu ứng, không thay đổi hành vi mở ảnh.
 
-Mã trò chơi riêng ở `static/js/play.js`, style ở `static/css/play.css`, markup ở `templates/_play.html`. Logic xếp thứ tự, ghép ảnh, dấu chân, shuffle và sổ dấu được kiểm tra bằng Node built-in, không cần cài package. Hai ảnh ghép sai tự úp sau 850ms; timer và lượt đang mở được dọn khi đóng trò, chơi lại hoặc tab ẩn. Reduced-motion giữ phản hồi tĩnh và tắt chuyển động. Nếu JavaScript chưa khởi tạo, vùng trò vẫn ẩn và nội dung portfolio vẫn đọc được.
+Mã riêng ở `static/js/easter-eggs.js` và `static/css/easter-eggs.css`, không thêm thư viện, vòng lặp liên tục hoặc storage. Chặn bấm mèo chồng tiếng; mỗi ảnh có cooldown, chỉ một tay mèo hoạt động tại một thời điểm. Mở album, ẩn tab hoặc rời trang sẽ hủy hiệu ứng và dừng tiếng. Reduced-motion giữ mèo đổi biểu cảm và tay mèo hiện/ẩn ngắn, bỏ chuyển động vươn/nhún. Không JavaScript thì mèo ẩn, không chèn bàn tay, nhưng toàn bộ nội dung và ảnh vẫn đọc được.
+
+Ảnh và tiếng đều nằm trong `static/eggs/`, có [nguồn tài nguyên và giấy phép](static/eggs/ATTRIBUTION.md). Không tạo ảnh AI mới trong lần chỉnh sửa này, không tải thêm tài nguyên ngoài khi xem trang.
 
 ## Chỉnh nội dung
 

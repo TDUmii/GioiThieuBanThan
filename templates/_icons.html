@@ -50,8 +50,9 @@
   {% elif name == 'book' %}
     <path d="M8 10C14 9 19 11 24 15V39C19 35 14 33 8 34V10Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
     <path d="M40 10C34 9 29 11 24 15V39C29 35 34 33 40 34V10Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
-  {% elif name == 'check' %}
-    <path d="M10 25L20 35L38 13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  {% elif name in ('sound', 'sound-off') %}
+    <path d="M9 19H17L27 11V37L17 29H9V19Z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    {% if name == 'sound' %}<path d="M33 17C37 21 37 27 33 31M38 12C45 19 45 29 38 36" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>{% else %}<path d="M34 20L42 28M42 20L34 28" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>{% endif %}
   {% elif name == 'close' %}
     <path d="M14 14L34 34M34 14L14 34" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
   {% elif name == 'arrow-flow' %}
