@@ -76,11 +76,25 @@ class PortfolioRoutesTest(unittest.TestCase):
         self.assertEqual(html.count('<article class="travel-card">'), 3)
         self.assertNotIn('travel-card--wide', html)
 
+    def test_optional_games_are_scoped_and_hidden_until_initialized(self):
+        html = self.client.get("/").get_data(as_text=True)
+        self.assertEqual(html.count('data-play-zone'), 5)
+        self.assertEqual(html.count('class="memory-tile"'), 6)
+        self.assertEqual(html.count('data-paw-cell='), 9)
+        self.assertEqual(html.count('data-order="'), 4)
+        self.assertEqual(html.count('data-quest="'), 4)
+        self.assertIn('data-order-panel hidden', html)
+        self.assertIn('data-memory-panel hidden', html)
+        self.assertIn('data-paw-panel hidden', html)
+        self.assertIn('/static/js/play.js', html)
+
     def test_original_images_and_static_files(self):
         files = [("/img/" + name, ROOT / "img" / name) for name in sorted(IMAGES)]
         files += [
             ("/static/css/style.css", ROOT / "static/css/style.css"),
             ("/static/js/main.js", ROOT / "static/js/main.js"),
+            ("/static/js/play.js", ROOT / "static/js/play.js"),
+            ("/static/css/play.css", ROOT / "static/css/play.css"),
             ("/static/favicon.svg", ROOT / "static/favicon.svg"),
         ]
         files += [("/static/fonts/" + path.name, path) for path in (ROOT / "static/fonts").glob("*.ttf")]
@@ -119,6 +133,8 @@ class PortfolioRoutesTest(unittest.TestCase):
         profile["hero_description"] = payload
         profile["intro_more"] = payload
         profile["travels"][0]["description"] = payload
+        profile["travels"][0]["title"] = payload
+        profile["timeline"][0]["title"] = payload
         profile["hero_alt"] = payload
         profile["facts"][0]["from_label"] = payload
         profile["facts"][0]["to_label"] = payload
@@ -131,6 +147,7 @@ class PortfolioRoutesTest(unittest.TestCase):
         self.assertIn(str(escape(payload)), html)
         self.assertIn('alt="' + str(escape(payload)) + '"', html)
         self.assertIn('data-caption="' + str(escape(payload)) + '"', html)
+        self.assertIn('data-photo-name="' + str(escape(payload)) + '"', html)
 
 
 if __name__ == "__main__":

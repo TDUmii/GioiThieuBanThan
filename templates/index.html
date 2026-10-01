@@ -1,4 +1,5 @@
 {% from '_icons.html' import icon %}
+{% from '_play.html' import photo_play, order_play, memory_play, paw_play, passport %}
 {% macro photo_url(path) %}{{ url_for('image_file', filename=path.replace('img/', '')) }}{% endmacro %}
 <!doctype html>
 <html lang="vi">
@@ -11,6 +12,7 @@
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
   <link rel="preload" href="{{ url_for('static', filename='fonts/quicksand-500.ttf') }}" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/play.css') }}">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Bỏ qua đến nội dung chính</a>
@@ -31,6 +33,7 @@
           <h1 id="hero-title">{{ profile.hero_heading }}<br><em>{{ profile.hero_accent }}</em></h1>
           <p class="hero-description">{{ profile.hero_description }}</p>
           <a class="button button--primary" href="#journey">Nhìn lại {{ icon('arrow-flow') }}</a>
+          {{ photo_play() }}
         </div>
         <div class="hero-visual" data-hero-scene>
           <figure class="hero-photo" data-photo-now>
@@ -38,6 +41,7 @@
               <img src="{{ photo_url(profile.hero_photo) }}" alt="{{ profile.hero_alt }}" width="2560" height="1706" fetchpriority="high"><span class="photo-expand">{{ icon('expand') }}<span class="sr-only">Xem ảnh lớn</span></span>
             </button>
             <figcaption><span>Hôm nay.</span>{{ icon('camera') }}</figcaption>
+            <span class="photo-stamp" data-photo-stamp hidden aria-hidden="true">{{ icon('check') }}Đã ghé</span>
           </figure>
           <figure class="hero-memory" data-photo-then><img src="{{ photo_url('img/AnhTruongC3.jpg') }}" alt="Ngôi trường trong những ngày trước đây" width="1280" height="852"><figcaption>Ngày ấy.</figcaption></figure>
           <span class="hero-connector" aria-hidden="true">{{ icon('arrow-flow') }}</span>
@@ -74,6 +78,7 @@
           </article>
           {% endfor %}
         </div>
+        {{ order_play(profile.timeline) }}
       </div>
     </section>
     <section class="travel section" id="travel" aria-labelledby="travel-title">
@@ -88,17 +93,19 @@
           </article>
           {% endfor %}
         </div>
+        {{ memory_play(profile.travels) }}
       </div>
     </section>
     <section class="animal section" id="animals" aria-labelledby="animal-title">
       <div class="container animal-grid">
-        <div class="animal-copy"><h2 id="animal-title">{{ profile.animal.title }}<br><em>{{ profile.animal.accent }}</em></h2><p>{{ profile.animal.text }}</p><div class="paw-trail" aria-hidden="true"><span>{{ icon('paw') }}</span><span>{{ icon('paw') }}</span><span>{{ icon('paw') }}</span></div></div>
+        <div class="animal-copy"><h2 id="animal-title">{{ profile.animal.title }}<br><em>{{ profile.animal.accent }}</em></h2><p>{{ profile.animal.text }}</p><div class="paw-trail" aria-hidden="true"><span>{{ icon('paw') }}</span><span>{{ icon('paw') }}</span><span>{{ icon('paw') }}</span></div>{{ paw_play() }}</div>
         <figure class="animal-photo"><button type="button" class="js-lightbox-trigger" data-animal-photo data-image="{{ photo_url(profile.animal.image) }}" data-caption="Chơi cùng những chú chó" data-alt="{{ profile.animal.alt }}" aria-label="Xem ảnh: Chơi cùng những chú chó">
           <img src="{{ photo_url(profile.animal.image) }}" alt="{{ profile.animal.alt }}" loading="lazy" decoding="async" width="1280" height="1280"><span class="photo-expand">{{ icon('expand') }}<span class="sr-only">Xem ảnh lớn</span></span>
         </button></figure>
       </div>
     </section>
   </main>
+  {{ passport() }}
   <footer class="site-footer"><div class="container footer-inner"><a href="#top">Chuyện của mình.</a><span id="current-year"></span><a class="back-to-top" href="#top" aria-label="Về đầu trang">{{ icon('arrow-up-right') }}</a></div></footer>
   <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
     <div class="lightbox-dialog">
@@ -108,5 +115,6 @@
     </div>
   </dialog>
   <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/play.js') }}" defer></script>
 </body>
 </html>

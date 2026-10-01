@@ -1,0 +1,52 @@
+{% from '_icons.html' import icon %}
+
+{% macro photo_play() -%}
+<div class="photo-play" data-play-zone hidden>
+  <button class="play-link" type="button" data-photo-play>{{ icon('camera') }}<span>Đóng dấu kỷ niệm</span></button>
+  <p class="play-hint" data-photo-status role="status">Có 4 dấu ghé chơi dọc album. Thử một chút nhé?</p>
+</div>
+{%- endmacro %}
+
+{% macro order_play(timeline) -%}
+<details class="play-panel" data-play-zone data-order-panel hidden>
+  <summary>{{ icon('route') }}<span>Xếp lại kỷ niệm</span>{{ icon('arrow-down') }}</summary>
+  <div class="play-body">
+    <div class="play-note"><p>Chạm các dấu mốc theo thứ tự bạn vừa đọc. Không cần vội.</p><p class="play-status" data-order-status role="status">Bắt đầu từ kỷ niệm đầu tiên.</p><button type="button" class="play-reset" data-order-reset>Xếp lại từ đầu</button></div>
+    <div><ol class="order-slots" aria-label="Thứ tự đã chọn">{% for item in timeline %}<li data-order-slot><span>{{ loop.index }}</span></li>{% endfor %}</ol>
+      <div class="order-choices" data-order-choices>{% for item in timeline %}<button type="button" class="order-choice" data-order="{{ loop.index0 }}" aria-pressed="false">{{ icon(item.icon) }}<span>{{ item.title }}</span></button>{% endfor %}</div>
+    </div>
+  </div>
+</details>
+{%- endmacro %}
+
+{% macro memory_play(travels) -%}
+<details class="play-panel" data-play-zone data-memory-panel hidden>
+  <summary>{{ icon('camera') }}<span>Lật ảnh tìm cặp</span>{{ icon('arrow-down') }}</summary>
+  <div class="play-body">
+    <div class="play-note"><p>Hai tấm ảnh giống nhau là một cặp. Thử nhớ những góc vườn mình vừa đi qua.</p><p class="play-status" data-memory-status role="status">Tìm đủ 3 cặp ảnh.</p><button type="button" class="play-reset" data-memory-reset>Trộn ảnh, chơi lại</button></div>
+    <div class="memory-board" data-memory-board aria-label="Sáu tấm ảnh úp">
+      {% for copy in range(2) %}{% for travel in travels %}<button class="memory-tile" type="button" data-pair="{{ loop.index0 }}" data-photo-name="{{ travel.title }}" aria-label="Lật ảnh {{ copy * 3 + loop.index }}" aria-pressed="false"><span class="memory-back">{{ icon('camera') }}</span><img src="{{ url_for('image_file', filename=travel.image.replace('img/', '')) }}" alt="" loading="lazy" width="1280" height="960"><span class="memory-match" aria-hidden="true">{{ icon('check') }}</span></button>{% endfor %}{% endfor %}
+    </div>
+  </div>
+</details>
+{%- endmacro %}
+
+{% macro paw_play() -%}
+<details class="play-panel play-panel--dark" data-play-zone data-paw-panel hidden>
+  <summary>{{ icon('paw') }}<span>Đuổi theo dấu chân</span>{{ icon('arrow-down') }}</summary>
+  <div class="play-body">
+    <div class="play-note"><p>Chạm dấu chân màu vàng. Theo kịp 6 bước là về đích, không có đồng hồ đếm ngược.</p><p class="play-status" data-paw-status role="status">Đã theo được 0 / 6 bước.</p><button type="button" class="play-reset" data-paw-reset>Đi một vòng nữa</button></div>
+    <div class="paw-board" aria-label="Chín dấu chân">{% for cell in range(9) %}<button type="button" class="paw-cell" data-paw-cell="{{ cell }}" aria-label="Dấu chân {{ cell + 1 }}" aria-pressed="false">{{ icon('paw') }}</button>{% endfor %}</div>
+  </div>
+</details>
+{%- endmacro %}
+
+{% macro passport() -%}
+<aside class="album-passport" data-play-zone hidden aria-label="Sổ ghé chơi">
+  <div class="container passport-inner"><div><h2>Sổ ghé chơi.</h2><p data-passport-status>0 / 4 dấu. Những trò nhỏ nằm dọc album.</p></div>
+    <ul class="passport-stamps" aria-label="Dấu ghé chơi">{% for key, label, name in [('photo', 'Kỷ niệm', 'camera'), ('order', 'Dấu mốc', 'route'), ('memory', 'Chuyến đi', 'flower'), ('paw', 'Bạn bốn chân', 'paw')] %}<li data-quest="{{ key }}" aria-label="{{ label }}: chưa hoàn thành" data-quest-label="{{ label }}">{{ icon(name) }}</li>{% endfor %}</ul>
+    <button class="play-reset" type="button" data-passport-reset>Chơi lại cả chuyến</button>
+    <p class="passport-thanks" data-passport-thanks hidden>Cảm ơn bạn đã ghé, và ở lại chơi cùng mình.</p>
+  </div>
+</aside>
+{%- endmacro %}

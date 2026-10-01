@@ -8,6 +8,8 @@ Portfolio cá nhân bằng ảnh: mình ở hiện tại, những kỷ niệm v�
 
 [Về mình](docs/preview-about.png) | [Nhìn lại](docs/preview-journey.png) | [Chuyến đi](docs/preview-travel.png) | [Giao diện điện thoại](docs/preview-mobile.png)
 
+[Trò ghép ảnh](docs/preview-play-memory.png) | [Trò dấu chân](docs/preview-play-paw.png) | [Chơi trên mobile](docs/preview-play-mobile.png)
+
 ## Chạy local
 
 Trên Windows, chạy:
@@ -51,6 +53,8 @@ JavaScript, CSS, ảnh và font được phục vụ từ dự án. Patrick Hand
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 node --check static/js/main.js
+node --check static/js/play.js
+node --test tests/test_play.cjs
 ```
 
 Các kiểm tra Python dùng Flask test client cho trang chủ, 9 ảnh gốc, CSS/JS, file không tồn tại, đường dẫn vượt thư mục và HTML escaping. `node --check` chỉ kiểm tra cú pháp JS; kiểm tra menu, dialog, bàn phím và responsive cần thực hiện thêm trên trình duyệt sau khi ghép giao diện.
@@ -58,6 +62,14 @@ Các kiểm tra Python dùng Flask test client cho trang chủ, 9 ảnh gốc, C
 Có thêm kiểm tra cặp Ngày ấy/Hôm nay, icon SVG, đủ 9 nút ảnh và các đích điều hướng. [DESIGN.md](DESIGN.md) ghi cách rút gọn nội dung và các mẫu hoạt ảnh tham khảo từ dự án UI-UX local; không sao chép thư mục hoặc tài nguyên của các dự án đó.
 
 Kết quả kiểm tra trình duyệt sau tích hợp được ghi ở [docs/QA.md](docs/QA.md). Đây là kiểm tra trên trình duyệt desktop với các viewport mô phỏng, không phải kiểm tra trên điện thoại vật lý hoặc đánh giá WCAG đầy đủ.
+
+## Ghé chơi trong album
+
+Có bốn tương tác tùy chọn từ đầu tới cuối: đóng dấu kỷ niệm ở hero, xếp lại bốn dấu mốc, lật sáu ảnh tìm ba cặp và theo sáu bước chân. Các trò mở bằng summary native, dùng được với chạm, chuột và bàn phím. Trò dấu chân chuyển focus sang bước tiếp theo khi chơi bằng Enter; không có âm thanh hoặc giới hạn thời gian.
+
+Sổ ghé chơi ở cuối trang giữ dấu của những trò đã hoàn thành trong lần xem hiện tại. Chơi lại một trò giữ dấu đã đạt; Chơi lại cả chuyến xóa cả bốn dấu và tiến độ. Reload cũng bắt đầu một chuyến mới. Không dùng cookie, localStorage, sessionStorage hoặc API online.
+
+Mã trò chơi riêng ở `static/js/play.js`, style ở `static/css/play.css`, markup ở `templates/_play.html`. Logic xếp thứ tự, ghép ảnh, dấu chân, shuffle và sổ dấu được kiểm tra bằng Node built-in, không cần cài package. Hai ảnh ghép sai tự úp sau 850ms; timer và lượt đang mở được dọn khi đóng trò, chơi lại hoặc tab ẩn. Reduced-motion giữ phản hồi tĩnh và tắt chuyển động. Nếu JavaScript chưa khởi tạo, vùng trò vẫn ẩn và nội dung portfolio vẫn đọc được.
 
 ## Chỉnh nội dung
 

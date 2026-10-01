@@ -16,6 +16,14 @@ Icon SVG cùng viewBox, nét 2.2 và đầu nét bo tròn. Mũi tên uốn cong 
 
 Không thêm thư viện hoặc vòng animation chạy vô hạn. requestAnimationFrame chỉ gom sự kiện cuộn/resize; hiệu ứng finite được hủy khi tab ẩn hoặc bật reduced-motion. Mặc định nội dung và ảnh luôn hiển thị. Bản không JavaScript vẫn có menu và đọc được toàn bộ album.
 
+## Ghé chơi trong album
+
+Thêm lớp tương tác tự nguyện từ đầu tới cuối: đóng dấu lên ảnh hiện tại, xếp bốn dấu mốc theo thứ tự bài viết, ghép ba cặp ảnh chuyến đi và theo sáu bước chân. Ba trò dùng details native, mặc định thu gọn để ảnh và lời kể vẫn dẫn đường. Sổ ghé chơi ở cuối giữ bốn dấu hoàn thành trong lần xem hiện tại; không dùng cookie, storage, API, âm thanh hoặc giới hạn thời gian. Chơi lại một trò giữ dấu đã đạt; Chơi lại cả chuyến xóa toàn bộ tiến độ.
+
+Motion mang chất giấy và mực: dấu được đặt lên ảnh, ảnh mở theo nét cắt ngang, dấu chân phản hồi khi chạm, lời cảm ơn hiện khi đủ bốn dấu. Không có confetti toàn màn hình, cursor giả hoặc motion loop. Hiệu ứng hữu hạn, hủy khi tab ẩn hoặc bật reduced-motion; reduced-motion vẫn có màu, dấu và lời phản hồi tĩnh. Timer 850ms chỉ dùng để úp lại hai ảnh ghép sai, được xóa khi chơi lại, đóng trò hoặc tab ẩn.
+
+Tách giao diện trò trong templates/_play.html, style trong static/css/play.css, state và controller trong static/js/play.js. Logic trò được test bằng Node built-in, không thêm package. Nếu JavaScript không khởi tạo được, toàn bộ vùng trò vẫn hidden; năm phần nội dung và menu không JavaScript tiếp tục đọc được.
+
 ## Layout
 
 Khung tối đa 1160px. Menu mobile tại 820px, bố cục một cột tại 580px, điều chỉnh nhỏ tại 360px. Ảnh trường/STEM/đồ án dùng contain; ảnh cá nhân và du lịch có nút xem bản gốc. Tiêu đề không vượt 6rem, tracking không thấp hơn -0.035em.

@@ -1,5 +1,19 @@
 # Kiểm tra nội dung và giao diện
 
+## Trò nhỏ xuyên suốt album ngày 01/10/2026
+
+- Có bốn tương tác: đóng dấu ảnh, xếp thứ tự bốn dấu mốc, ghép ba cặp ảnh và theo sáu bước chân. Các trò nằm cạnh nội dung tương ứng, mặc định thu gọn; Sổ ghé chơi nằm cuối trang.
+- Desktop: đóng dấu hai lần vẫn chỉ tính một dấu; chọn sai thứ tự có gợi ý và không tăng điểm; chọn đủ bốn mốc đúng đạt dấu thứ hai. Ghép đủ sáu tile thành ba cặp đạt dấu thứ ba. Theo sáu bước chân bằng Enter đạt dấu thứ tư, hiện lời cảm ơn và trạng thái 4/4.
+- Memory: thử ghép sai, từ chối chọn thêm trong lúc chờ, timer tự úp hai ảnh; chơi lại khi đang chờ xóa lượt và timer. Đóng/mở lại bằng Enter, kể cả nhanh, không giữ ảnh mở hoặc lời hướng dẫn cũ. Đã sửa callback đóng summary trước default action để không phụ thuộc toggle event bị gộp.
+- Keyboard: summary native mở bằng Enter; tile ảnh lật bằng Enter; dấu chân chuyển focus sang vị trí tiếp theo. Album gốc vẫn đóng bằng Escape và trả focus về ảnh mở; menu mobile đóng bằng Escape.
+- Chơi lại cả chuyến xóa cả bốn dấu, các cặp ảnh, thứ tự đã chọn, dấu trên ảnh và lời cảm ơn. Chơi lại riêng từng trò vẫn giữ dấu đã đạt của chuyến hiện tại.
+- Khi ba trò mở, viewport 320, 390, 580, 768, 1024, 1440px không tràn ngang; nút, lời kể, slot và sổ dấu không tràn vùng chứa. Xem trực tiếp desktop 1440x900 và mobile 390x844, các tile và dấu chân vẫn đủ lớn để chạm.
+- Sáu ảnh trong memory tải thành công, naturalWidth lớn hơn 0 và opacity về 1 sau lật. 9 nút xem ảnh gốc vẫn độc lập với trò chơi; không chỉnh sửa file img.
+- Giả lập reduced-motion: ảnh ở opacity 1, dấu kỷ niệm xuất hiện ở transform tĩnh và điểm vẫn tăng. Tắt JavaScript rồi reload: cả năm vùng trò có hidden/display none, năm phần nội dung vẫn có mặt, nav mobile là grid, không tràn ngang. Đã trả về JavaScript bật và không giữ giả lập reduced-motion.
+- 9/9 unittest Flask và 6/6 Node test PASS. Node kiểm tra shuffle, thứ tự sai/lặp, khóa memory khi ghép sai, settle/reset, đổi dấu chân và tính dấu duy nhất. node --check, git diff --check PASS; console không có warning/error trong lượt kiểm tra.
+- Bộ quét layout vẫn DEGRADED vì thiếu parser; không dùng nó để khẳng định giao diện sạch. Chứng cứ ở trên lấy từ trạng thái DOM, input thật và ảnh chụp trình duyệt.
+- Preview: [đầu trang](preview-play-hero.png), [ghép ảnh](preview-play-memory.png), [dấu chân và sổ dấu](preview-play-paw.png), [mobile](preview-play-mobile.png). Chưa thử trên điện thoại vật lý hoặc Safari/Firefox; việc hủy animation khi tab ẩn được kiểm tra qua code, không đo FPS trên thiết bị yếu.
+
 ## Cân lại ảnh Chuyến đi ngày 01/10/2026
 
 - Ba ảnh dùng chung khung vuông, ba cột bằng nhau. Trên desktop 1440px, ảnh khoảng 365.3x365.3px; tiêu đề và đoạn mô tả thẳng hàng, sai lệch dưới 1px do làm tròn layout.

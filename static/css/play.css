@@ -1,0 +1,78 @@
+[hidden] { display: none !important; }
+.photo-play { margin-top: 24px; max-width: 360px; }
+.play-link { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--coral); font-size: 14px; font-weight: 700; }
+.play-link .icon { width: 24px; height: 24px; }
+.play-link:hover span, .play-reset:hover { text-decoration: underline; text-underline-offset: 5px; }
+.play-hint { margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.photo-stamp { position: absolute; top: 40px; right: 20px; display: flex; align-items: center; gap: 6px; padding: 7px 12px; border: 2px solid var(--coral); color: var(--coral); background: var(--surface); font: 600 22px/1.2 var(--font-hand); transform: rotate(-12deg); pointer-events: none; }
+.photo-stamp .icon { width: 22px; height: 22px; }
+.play-panel { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--line); }
+.play-panel summary { display: flex; align-items: center; gap: 12px; min-height: 48px; width: fit-content; max-width: 100%; list-style: none; cursor: pointer; color: var(--coral); font-size: 15px; font-weight: 700; }
+.play-panel summary::-webkit-details-marker { display: none; }
+.play-panel summary > .icon:last-child { width: 18px; height: 18px; transition: transform .2s var(--ease); }
+.play-panel[open] summary > .icon:last-child { transform: rotate(180deg); }
+.play-body { display: grid; grid-template-columns: .8fr 1.2fr; gap: 40px; align-items: start; padding-top: 22px; padding-bottom: 4px; }
+.play-note { max-width: 360px; }
+.play-note > p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.play-note > .play-status { min-height: 50px; margin-top: 16px; color: var(--ink); font-weight: 700; }
+.play-reset { min-height: 44px; color: var(--coral); font-size: 12px; font-weight: 700; text-align: left; }
+.order-slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0 0 18px; padding: 0; list-style: none; }
+.order-slots li { display: flex; align-items: center; gap: 7px; min-height: 55px; padding: 8px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+.order-slots li > span { color: var(--coral); font-size: 16px; font-weight: 700; }
+.order-slots li .icon { width: 26px; height: 26px; color: var(--coral); }
+.order-choices { display: flex; flex-wrap: wrap; gap: 10px; }
+.order-choice { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 6px; font-size: 13px; }
+.order-choice:hover { border-color: var(--coral); }
+.order-choice[aria-pressed="true"] { color: var(--coral); border-color: var(--coral); background: #f8eae3; }
+.order-choice .icon { width: 23px; height: 23px; }
+.memory-board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: min(100%, 480px); }
+.memory-tile { position: relative; overflow: hidden; aspect-ratio: 1.15; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.memory-tile img { position: absolute; inset: 0; height: 100%; object-fit: cover; opacity: 0; transition: opacity .18s ease; }
+.memory-back { position: absolute; inset: 0; display: grid; place-items: center; color: var(--coral); }
+.memory-back .icon { width: 36px; height: 36px; }
+.memory-tile:hover { border-color: var(--coral); }
+.memory-tile.is-revealed img, .memory-tile.is-matched img { opacity: 1; }
+.memory-tile.is-revealed .memory-back, .memory-tile.is-matched .memory-back { visibility: hidden; }
+.memory-match { position: absolute; right: 6px; bottom: 6px; display: none; padding: 4px; color: var(--ink); background: var(--surface); border-radius: 50%; }
+.memory-match .icon { width: 18px; height: 18px; }
+.memory-tile.is-matched .memory-match { display: flex; }
+.play-panel--dark { border-color: #45606c; margin-top: 30px; }
+.play-panel--dark summary, .play-panel--dark .play-reset { color: var(--gold); }
+.play-panel--dark .play-body { grid-template-columns: 1fr; gap: 18px; }
+.play-panel--dark .play-note > p { max-width: none; margin: 0; color: #bbc9cb; font-size: 13px; }
+.play-panel--dark .play-note > .play-status { min-height: 0; margin-top: 12px; color: var(--surface); }
+.paw-board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: min(100%, 294px); }
+.paw-cell { display: grid; place-items: center; min-height: 64px; aspect-ratio: 1.2; border: 1px solid #45606c; border-radius: 6px; color: #bbc9cb; }
+.paw-cell .icon { width: 34px; height: 34px; }
+.paw-cell[aria-pressed="true"] { color: var(--gold); background: #294451; border-color: var(--gold); }
+.paw-cell:hover { background: #294451; }
+.album-passport { padding-block: 42px; background: var(--paper); }
+.passport-inner { display: flex; align-items: center; flex-wrap: wrap; gap: 24px 40px; }
+.passport-inner > div { margin-right: auto; }
+.passport-inner h2 { font: 600 32px/1.2 var(--font-hand); letter-spacing: 0; }
+.passport-inner p { margin-top: 8px; color: var(--muted); font-size: 13px; }
+.passport-stamps { display: flex; flex-wrap: wrap; gap: 12px; padding: 0; margin: 0; list-style: none; }
+.passport-stamps li { display: grid; place-items: center; width: 48px; height: 48px; color: var(--muted); border: 1px solid var(--line); border-radius: 50%; }
+.passport-stamps li.is-collected { color: var(--coral); border-color: var(--coral); background: #f8eae3; transform: rotate(-8deg); }
+.passport-inner > .passport-thanks { flex-basis: 100%; margin: 0; color: var(--coral); font: 600 27px/1.4 var(--font-hand); }
+@media (max-width: 820px) {
+  .play-body { grid-template-columns: 1fr; gap: 20px; }
+  .play-note { max-width: 65ch; }
+  .play-note > .play-status { min-height: 0; }
+  .play-panel--dark .play-note { max-width: 100%; }
+}
+@media (max-width: 580px) {
+  .play-panel { margin-top: 34px; padding-top: 16px; }
+  .play-panel summary { font-size: 14px; }
+  .order-slots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .order-choice { width: 100%; }
+  .memory-board { gap: 8px; }
+  .memory-back .icon { width: 29px; height: 29px; }
+  .passport-inner { gap: 20px; }
+  .passport-inner > div { flex-basis: 100%; }
+  .passport-stamps { gap: 10px; }
+  .passport-stamps li { width: 42px; height: 42px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .play-panel *, .photo-play *, .album-passport * { transition: none !important; animation: none !important; }
+}
