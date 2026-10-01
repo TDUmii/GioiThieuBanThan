@@ -4,7 +4,7 @@ Portfolio là một album cá nhân, không phải bản giới thiệu lộ tr�
 
 ## Nội dung
 
-Rút phần main từ khoảng 757 xuống 254 từ theo cách đếm khoảng trắng trong HTML đã render. Giữ chuyên ngành, nơi học, 4 kỷ niệm, 3 ảnh du lịch và ảnh chơi cùng động vật. Bỏ tagline, nhãn sở thích lặp lại lời mở đầu, các đoạn triết lý chung, chip/tựa phụ trùng nhau, điều hướng chương và đoạn kết không có thông tin mới. Menu còn 4 mục; nút về đầu trang nằm trong footer.
+Sau bản rút gọn, bổ sung mô tả theo yêu cầu ngày 01/10/2026: phần giới thiệu gồm hai đoạn về công nghệ và cuộc sống thường ngày, mỗi kỷ niệm có một đoạn kể riêng, ba ảnh du lịch có lời mô tả khung cảnh và phần động vật có lời kể đầy đủ hơn. Nội dung vẫn viết ở ngôi thứ nhất, không lặp nhãn hoặc biến trang thành bản lộ trình học tập. Menu còn 4 mục; nút về đầu trang nằm trong footer.
 
 Không thêm tên thật, năm, giải thưởng, nơi làm việc hoặc thông tin liên hệ chưa được cung cấp. Toàn bộ nội dung cá nhân nằm trong profile_data.py. Trường cấp 3 và đại học vẫn có ngữ cảnh trong phần kỷ niệm, không dùng làm định nghĩa của cả trang.
 

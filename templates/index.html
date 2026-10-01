@@ -46,7 +46,7 @@
     </section>
     <section class="intro section" id="about" aria-labelledby="about-title">
       <div class="container intro-grid">
-        <div class="intro-heading"><h2 id="about-title">{{ profile.intro_title }}<br><em>{{ profile.intro_accent }}</em></h2><p>{{ profile.intro }}</p></div>
+        <div class="intro-heading"><h2 id="about-title">{{ profile.intro_title }}<br><em>{{ profile.intro_accent }}</em></h2><p>{{ profile.intro }}</p><p>{{ profile.intro_more }}</p></div>
         <dl class="facts-list">
           {% for fact in profile.facts %}
           <div><dt>{{ icon(fact.icon) }}<span>{{ fact.label }}</span></dt><dd>{% if fact.from_label is defined %}<span class="fact-transition"><span>{{ fact.from_label }}</span>{{ icon('arrow-flow') }}<span class="sr-only">đến</span><span>{{ fact.to_label }}</span></span>{% else %}{{ fact.value }}{% endif %}</dd></div>
@@ -84,7 +84,7 @@
           <article class="travel-card {{ travel.class_name }}">
             <button type="button" class="travel-image js-lightbox-trigger" data-image="{{ photo_url(travel.image) }}" data-caption="{{ travel.title }}" data-alt="{{ travel.alt }}" aria-label="Xem ảnh: {{ travel.title }}">
               <img src="{{ photo_url(travel.image) }}" alt="{{ travel.alt }}" loading="lazy" decoding="async" width="1280" height="960"><span class="photo-expand">{{ icon('expand') }}<span class="sr-only">Xem ảnh lớn</span></span>
-            </button><h3>{{ travel.title }}</h3>
+            </button><h3>{{ travel.title }}</h3><p>{{ travel.description }}</p>
           </article>
           {% endfor %}
         </div>

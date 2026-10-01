@@ -1,4 +1,16 @@
-# Kiểm tra bản rút gọn và hoạt ảnh
+# Kiểm tra nội dung và giao diện
+
+## Bổ sung mô tả ngày 01/10/2026
+
+- Giới thiệu gồm hai đoạn về công nghệ và cuộc sống thường ngày. Bốn dấu mốc đều có lời kể mở rộng; ba ảnh du lịch có đoạn mô tả riêng; phần động vật được viết đầy đủ hơn.
+- Giữ tiêu đề, màu sắc, 9 ảnh gốc, icon và hoạt ảnh của bản trước. Không thêm tên, năm học, giải thưởng, địa điểm du lịch hoặc thông tin liên hệ chưa được cung cấp.
+- Đọc và kiểm tra hiển thị desktop 1440x900, mobile 390x844. Các đoạn văn không bị cắt; khoảng cách giữa hai đoạn giới thiệu được tách rõ.
+- Đo viewport 320, 390, 768, 1024, 1440px: scrollWidth bằng clientWidth, không có đoạn văn, tiêu đề hoặc dd tràn ngang. Đây là viewport mô phỏng, không phải thử trên điện thoại vật lý.
+- Menu mobile vẫn mở và đóng khi chọn Về mình. Console không có warning/error trong lượt kiểm tra.
+- 7/7 nhóm unittest PASS, bao gồm kiểm tra mô tả mở rộng được render đúng và HTML escaping của các trường mới. git diff --check PASS.
+- Cập nhật ảnh xem trước desktop, dấu mốc, mobile và thêm [phần giới thiệu](preview-about.png). Browser được trả về viewport bình thường sau kiểm tra.
+
+## Bản rút gọn và hoạt ảnh ngày 30/09/2026
 
 Ngày kiểm tra: 30/09/2026. Flask local tại 127.0.0.1:5059, debug tắt. Một vòng kiểm tra gộp desktop/mobile, sửa caption ảnh và pha chờ animation trong một batch, rồi xác nhận lại.
 

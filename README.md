@@ -6,7 +6,7 @@ Portfolio cá nhân bằng ảnh: mình ở hiện tại, những kỷ niệm v�
 
 ![Giao diện desktop](docs/preview-desktop.png)
 
-[Nhìn lại](docs/preview-journey.png) | [Giao diện điện thoại](docs/preview-mobile.png)
+[Về mình](docs/preview-about.png) | [Nhìn lại](docs/preview-journey.png) | [Giao diện điện thoại](docs/preview-mobile.png)
 
 ## Chạy local
 
@@ -61,7 +61,7 @@ Kết quả kiểm tra trình duyệt sau tích hợp được ghi ở [docs/QA.
 
 ## Chỉnh nội dung
 
-Nội dung hiển thị nằm trong `profile_data.py`. Ảnh được giữ trong thư mục `img/` để trang chạy được cả khi không có internet.
+Nội dung hiển thị nằm trong `profile_data.py`: hai đoạn giới thiệu (`intro`, `intro_more`), lời kể cho từng dấu mốc (`timeline`), mô tả dưới ảnh du lịch (`travels.description`) và đoạn về động vật (`animal.text`). Ảnh được giữ trong thư mục `img/` để trang chạy được cả khi không có internet.
 
 ## Phạm vi repository
 

@@ -59,6 +59,18 @@ class PortfolioRoutesTest(unittest.TestCase):
         self.assertNotIn('href="#contact"', html)
         self.assertIn('aria-label="Về đầu trang"', html)
 
+    def test_expanded_descriptions_are_rendered_with_their_photos(self):
+        html = self.client.get("/").get_data(as_text=True)
+        profile = app_module.PROFILE
+        self.assertIn(str(escape(profile["intro_more"])), html)
+        for item in profile["timeline"]:
+            self.assertIn(str(escape(item["text"])), html)
+            self.assertGreater(len(item["text"].split()), 35)
+        for travel in profile["travels"]:
+            self.assertIn('<p>' + str(escape(travel["description"])) + '</p>', html)
+            self.assertGreater(len(travel["description"].split()), 20)
+        self.assertIn(str(escape(profile["animal"]["text"])), html)
+
     def test_original_images_and_static_files(self):
         files = [("/img/" + name, ROOT / "img" / name) for name in sorted(IMAGES)]
         files += [
@@ -100,6 +112,8 @@ class PortfolioRoutesTest(unittest.TestCase):
         profile["hero_heading"] = payload
         profile["hero_accent"] = payload
         profile["hero_description"] = payload
+        profile["intro_more"] = payload
+        profile["travels"][0]["description"] = payload
         profile["hero_alt"] = payload
         profile["facts"][0]["from_label"] = payload
         profile["facts"][0]["to_label"] = payload
