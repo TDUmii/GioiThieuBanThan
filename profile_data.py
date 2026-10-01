@@ -10,7 +10,12 @@ PROFILE = {
     "intro": "Mình học An toàn thông tin tại Học viện Kỹ thuật Mật mã. Với mình, công nghệ không chỉ nằm trong sách vở, mà còn ở việc thử một ý tưởng, tìm hiểu cách nó hoạt động và từng bước biến điều mình nghĩ thành điều mình làm được.",
     "intro_more": "Ngoài những giờ học và làm đồ án, mình thích đi đây đó, chụp lại những khung cảnh đẹp và chơi cùng động vật. Những bức ảnh ở đây giữ lại cả hai phần ấy: một mình nghiêm túc với điều đã chọn, và một mình giản dị trong những ngày bình thường.",
     "facts": [
-        {"label": "Dấu mốc", "icon": "route", "from_label": "Ngày ấy", "to_label": "Hôm nay"},
+        {
+            "label": "Dấu mốc",
+            "icon": "route",
+            "from_label": "Ngày ấy",
+            "to_label": "Hôm nay",
+        },
         {"label": "Nơi học", "icon": "school", "value": "Học viện Kỹ thuật Mật mã"},
         {"label": "Chuyên ngành", "icon": "shield", "value": "An toàn thông tin"},
     ],

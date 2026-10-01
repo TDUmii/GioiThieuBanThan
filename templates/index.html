@@ -2,111 +2,330 @@
 {% macro photo_url(path) %}{{ url_for('image_file', filename=path.replace('img/', '')) }}{% endmacro %}
 <!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Một chút về mình, những kỷ niệm và những điều mình thích.">
-  <meta name="theme-color" content="#f7f3ea">
-  <title>{{ profile.hero_title }} | Chuyện của mình</title>
-  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
-  <link rel="preload" href="{{ url_for('static', filename='fonts/quicksand-500.ttf') }}" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Bỏ qua đến nội dung chính</a>
-  <header class="site-header" data-header>
-    <div class="container header-inner">
-      <a class="brand" href="#top" aria-label="Chuyện của mình - về đầu trang"><span class="brand-mark">{{ icon('book') }}</span><strong>Chuyện của mình<span>.</span></strong></a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>{{ icon('menu') }}<span class="sr-only">Mở menu</span></button>
-      <nav class="site-nav" id="site-nav" aria-label="Điều hướng chính" data-site-nav>
-        <a href="#about">Về mình</a><a href="#journey">Nhìn lại</a><a href="#travel">Chuyến đi</a><a href="#animals">Bạn bốn chân {{ icon('paw') }}</a>
-      </nav>
-    </div>
-    <div class="reading-progress" aria-hidden="true"><span id="reading-progress"></span></div>
-  </header>
-  <main id="main-content">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <h1 id="hero-title">{{ profile.hero_heading }}<br><em>{{ profile.hero_accent }}</em></h1>
-          <p class="hero-description">{{ profile.hero_description }}</p>
-          <a class="button button--primary" href="#journey">Nhìn lại {{ icon('arrow-flow') }}</a>
-        </div>
-        <div class="hero-visual" data-hero-scene>
-          <figure class="hero-photo" data-photo-now>
-            <button type="button" class="hero-photo-button js-lightbox-trigger" data-image="{{ photo_url(profile.hero_photo) }}" data-caption="Hôm nay" data-alt="{{ profile.hero_alt }}" aria-label="Xem ảnh: Hôm nay">
-              <img src="{{ photo_url(profile.hero_photo) }}" alt="{{ profile.hero_alt }}" width="2560" height="1706" fetchpriority="high"><span class="photo-expand">{{ icon('expand') }}<span class="sr-only">Xem ảnh lớn</span></span>
-            </button>
-            <figcaption><span>Hôm nay.</span>{{ icon('camera') }}</figcaption>
-          </figure>
-          <figure class="hero-memory" data-photo-then><img src="{{ photo_url('img/AnhTruongC3.jpg') }}" alt="Ngôi trường trong những ngày trước đây" width="1280" height="852"><figcaption>Ngày ấy.</figcaption></figure>
-          <span class="hero-connector" aria-hidden="true">{{ icon('arrow-flow') }}</span>
-        </div>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Một chút về mình, những kỷ niệm và những điều mình thích.">
+    <meta name="theme-color" content="#f7f3ea">
+    <title>{{ profile.hero_title }} | Chuyện của mình</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+    <link rel="preload" href="{{ url_for('static', filename='fonts/quicksand-500.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Bỏ qua đến nội dung chính</a>
+
+    <header class="site-header" data-header>
+      <div class="container header-inner">
+        <a class="brand" href="#top" aria-label="Chuyện của mình - về đầu trang">
+          <span class="brand-mark">{{ icon('book') }}</span>
+          <strong>Chuyện của mình<span>.</span></strong>
+        </a>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          data-menu-toggle
+        >
+          {{ icon('menu') }}
+          <span class="sr-only">Mở menu</span>
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="Điều hướng chính" data-site-nav>
+          <a href="#about">Về mình</a>
+          <a href="#journey">Nhìn lại</a>
+          <a href="#travel">Chuyến đi</a>
+          <a href="#animals">Bạn bốn chân {{ icon('paw') }}</a>
+        </nav>
       </div>
-    </section>
-    <section class="intro section" id="about" aria-labelledby="about-title">
-      <div class="container intro-grid">
-        <div class="intro-heading"><h2 id="about-title">{{ profile.intro_title }}<br><em>{{ profile.intro_accent }}</em></h2><p>{{ profile.intro }}</p><p>{{ profile.intro_more }}</p></div>
-        <dl class="facts-list">
-          {% for fact in profile.facts %}
-          <div><dt>{{ icon(fact.icon) }}<span>{{ fact.label }}</span></dt><dd>{% if fact.from_label is defined %}<span class="fact-transition"><span>{{ fact.from_label }}</span>{{ icon('arrow-flow') }}<span class="sr-only">đến</span><span>{{ fact.to_label }}</span></span>{% else %}{{ fact.value }}{% endif %}</dd></div>
-          {% endfor %}
-        </dl>
+
+      <div class="reading-progress" aria-hidden="true">
+        <span id="reading-progress"></span>
       </div>
-    </section>
-    <section class="journey section" id="journey" aria-labelledby="journey-title">
-      <div class="container">
-        <div class="section-heading"><h2 id="journey-title">{{ profile.journey_title }}<br><em>{{ profile.journey_accent }}</em></h2><span class="heading-icon" aria-hidden="true">{{ icon('route') }}</span></div>
-        <div class="timeline" data-timeline>
-          <div class="timeline-track" aria-hidden="true"><span data-timeline-fill></span></div>
-          {% for item in profile.timeline %}
-          <article class="timeline-item{% if loop.index is even %} timeline-item--reverse{% endif %}" id="chapter-{{ item.number }}">
-            <div class="timeline-marker"><span>{{ item.number }}</span>{{ icon(item.icon) }}</div>
-            <div class="timeline-content">
-              <div class="timeline-copy"><h3>{{ item.title }}</h3><p>{{ item.text }}</p></div>
-              <figure class="timeline-photo">
-                <button type="button" class="js-lightbox-trigger" data-image="{{ photo_url(item.image) }}" data-caption="{{ item.caption }}" data-alt="{{ item.alt }}" aria-label="Xem ảnh: {{ item.title }}">
-                  <img src="{{ photo_url(item.image) }}" alt="{{ item.alt }}" loading="lazy" decoding="async" width="1280" height="850"><span class="photo-expand">{{ icon('expand') }}<span class="sr-only">Xem ảnh lớn</span></span>
-                </button>
-                <figcaption>{{ item.caption }}</figcaption>
-              </figure>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <h1 id="hero-title">
+              {{ profile.hero_heading }}<br>
+              <em>{{ profile.hero_accent }}</em>
+            </h1>
+            <p class="hero-description">{{ profile.hero_description }}</p>
+            <a class="button button--primary" href="#journey">
+              Nhìn lại
+              {{ icon('arrow-flow') }}
+            </a>
+          </div>
+
+          <div class="hero-visual" data-hero-scene>
+            <figure class="hero-photo" data-photo-now>
+              <button
+                type="button"
+                class="hero-photo-button js-lightbox-trigger"
+                data-image="{{ photo_url(profile.hero_photo) }}"
+                data-caption="Hôm nay"
+                data-alt="{{ profile.hero_alt }}"
+                aria-label="Xem ảnh: Hôm nay"
+              >
+                <img
+                  src="{{ photo_url(profile.hero_photo) }}"
+                  alt="{{ profile.hero_alt }}"
+                  width="2560"
+                  height="1706"
+                  fetchpriority="high"
+                >
+                <span class="photo-expand">
+                  {{ icon('expand') }}
+                  <span class="sr-only">Xem ảnh lớn</span>
+                </span>
+              </button>
+              <figcaption>
+                <span>Hôm nay.</span>
+                {{ icon('camera') }}
+              </figcaption>
+            </figure>
+
+            <figure class="hero-memory" data-photo-then>
+              <img
+                src="{{ photo_url('img/AnhTruongC3.jpg') }}"
+                alt="Ngôi trường trong những ngày trước đây"
+                width="1280"
+                height="852"
+              >
+              <figcaption>Ngày ấy.</figcaption>
+            </figure>
+
+            <span class="hero-connector" aria-hidden="true">
+              {{ icon('arrow-flow') }}
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="intro section" id="about" aria-labelledby="about-title">
+        <div class="container intro-grid">
+          <div class="intro-heading">
+            <h2 id="about-title">
+              {{ profile.intro_title }}<br>
+              <em>{{ profile.intro_accent }}</em>
+            </h2>
+            <p>{{ profile.intro }}</p>
+            <p>{{ profile.intro_more }}</p>
+          </div>
+
+          <dl class="facts-list">
+            {% for fact in profile.facts %}
+            <div>
+              <dt>
+                {{ icon(fact.icon) }}
+                <span>{{ fact.label }}</span>
+              </dt>
+              <dd>
+                {% if fact.from_label is defined %}
+                <span class="fact-transition">
+                  <span>{{ fact.from_label }}</span>
+                  {{ icon('arrow-flow') }}
+                  <span class="sr-only">đến</span>
+                  <span>{{ fact.to_label }}</span>
+                </span>
+                {% else %}
+                {{ fact.value }}
+                {% endif %}
+              </dd>
             </div>
-          </article>
-          {% endfor %}
+            {% endfor %}
+          </dl>
+        </div>
+      </section>
+
+      <section class="journey section" id="journey" aria-labelledby="journey-title">
+        <div class="container">
+          <div class="section-heading">
+            <h2 id="journey-title">
+              {{ profile.journey_title }}<br>
+              <em>{{ profile.journey_accent }}</em>
+            </h2>
+            <span class="heading-icon" aria-hidden="true">{{ icon('route') }}</span>
+          </div>
+
+          <div class="timeline" data-timeline>
+            <div class="timeline-track" aria-hidden="true">
+              <span data-timeline-fill></span>
+            </div>
+
+            {% for item in profile.timeline %}
+            <article
+              class="timeline-item{% if loop.index is even %} timeline-item--reverse{% endif %}"
+              id="chapter-{{ item.number }}"
+            >
+              <div class="timeline-marker">
+                <span>{{ item.number }}</span>
+                {{ icon(item.icon) }}
+              </div>
+
+              <div class="timeline-content">
+                <div class="timeline-copy">
+                  <h3>{{ item.title }}</h3>
+                  <p>{{ item.text }}</p>
+                </div>
+
+                <figure class="timeline-photo">
+                  <button
+                    type="button"
+                    class="js-lightbox-trigger"
+                    data-image="{{ photo_url(item.image) }}"
+                    data-caption="{{ item.caption }}"
+                    data-alt="{{ item.alt }}"
+                    aria-label="Xem ảnh: {{ item.title }}"
+                  >
+                    <img
+                      src="{{ photo_url(item.image) }}"
+                      alt="{{ item.alt }}"
+                      loading="lazy"
+                      decoding="async"
+                      width="1280"
+                      height="850"
+                    >
+                    <span class="photo-expand">
+                      {{ icon('expand') }}
+                      <span class="sr-only">Xem ảnh lớn</span>
+                    </span>
+                  </button>
+                  <figcaption>{{ item.caption }}</figcaption>
+                </figure>
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <section class="travel section" id="travel" aria-labelledby="travel-title">
+        <div class="container">
+          <div class="section-heading">
+            <h2 id="travel-title">
+              {{ profile.travel_title }}<br>
+              <em>{{ profile.travel_accent }}</em>
+            </h2>
+            <span class="heading-icon" aria-hidden="true">{{ icon('camera') }}</span>
+          </div>
+
+          <div class="travel-grid">
+            {% for travel in profile.travels %}
+            <article class="travel-card">
+              <button
+                type="button"
+                class="travel-image js-lightbox-trigger"
+                data-image="{{ photo_url(travel.image) }}"
+                data-caption="{{ travel.title }}"
+                data-alt="{{ travel.alt }}"
+                aria-label="Xem ảnh: {{ travel.title }}"
+              >
+                <img
+                  src="{{ photo_url(travel.image) }}"
+                  alt="{{ travel.alt }}"
+                  loading="lazy"
+                  decoding="async"
+                  width="1280"
+                  height="960"
+                >
+                <span class="photo-expand">
+                  {{ icon('expand') }}
+                  <span class="sr-only">Xem ảnh lớn</span>
+                </span>
+              </button>
+              <h3>{{ travel.title }}</h3>
+              <p>{{ travel.description }}</p>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <section class="animal section" id="animals" aria-labelledby="animal-title">
+        <div class="container animal-grid">
+          <div class="animal-copy">
+            <h2 id="animal-title">
+              {{ profile.animal.title }}<br>
+              <em>{{ profile.animal.accent }}</em>
+            </h2>
+            <p>{{ profile.animal.text }}</p>
+            <div class="paw-trail" aria-hidden="true">
+              <span>{{ icon('paw') }}</span>
+              <span>{{ icon('paw') }}</span>
+              <span>{{ icon('paw') }}</span>
+            </div>
+          </div>
+
+          <figure class="animal-photo">
+            <button
+              type="button"
+              class="js-lightbox-trigger"
+              data-image="{{ photo_url(profile.animal.image) }}"
+              data-caption="Chơi cùng những chú chó"
+              data-alt="{{ profile.animal.alt }}"
+              aria-label="Xem ảnh: Chơi cùng những chú chó"
+            >
+              <img
+                src="{{ photo_url(profile.animal.image) }}"
+                alt="{{ profile.animal.alt }}"
+                loading="lazy"
+                decoding="async"
+                width="1280"
+                height="1280"
+              >
+              <span class="photo-expand">
+                {{ icon('expand') }}
+                <span class="sr-only">Xem ảnh lớn</span>
+              </span>
+            </button>
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a href="#top">Chuyện của mình.</a>
+        <span id="current-year"></span>
+        <a class="back-to-top" href="#top" aria-label="Về đầu trang">
+          {{ icon('arrow-up-right') }}
+        </a>
+      </div>
+    </footer>
+
+    <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
+      <div class="lightbox-dialog">
+        <div class="lightbox-toolbar">
+          <p id="lightbox-title">Xem ảnh</p>
+          <button type="button" class="icon-button" aria-label="Đóng ảnh" data-lightbox-close>
+            {{ icon('close') }}
+          </button>
+        </div>
+
+        <div class="lightbox-stage">
+          <img id="lightbox-image" src="{{ photo_url(profile.hero_photo) }}" alt="">
+          <p id="lightbox-status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="lightbox-bottom">
+          <div class="lightbox-controls">
+            <button type="button" class="icon-button" aria-label="Ảnh trước" data-lightbox-prev>
+              {{ icon('arrow-left') }}
+            </button>
+            <span id="lightbox-count" aria-live="polite"></span>
+            <button type="button" class="icon-button" aria-label="Ảnh tiếp theo" data-lightbox-next>
+              {{ icon('arrow-right') }}
+            </button>
+          </div>
         </div>
       </div>
-    </section>
-    <section class="travel section" id="travel" aria-labelledby="travel-title">
-      <div class="container">
-        <div class="section-heading"><h2 id="travel-title">{{ profile.travel_title }}<br><em>{{ profile.travel_accent }}</em></h2><span class="heading-icon" aria-hidden="true">{{ icon('camera') }}</span></div>
-        <div class="travel-grid">
-          {% for travel in profile.travels %}
-          <article class="travel-card">
-            <button type="button" class="travel-image js-lightbox-trigger" data-image="{{ photo_url(travel.image) }}" data-caption="{{ travel.title }}" data-alt="{{ travel.alt }}" aria-label="Xem ảnh: {{ travel.title }}">
-              <img src="{{ photo_url(travel.image) }}" alt="{{ travel.alt }}" loading="lazy" decoding="async" width="1280" height="960"><span class="photo-expand">{{ icon('expand') }}<span class="sr-only">Xem ảnh lớn</span></span>
-            </button><h3>{{ travel.title }}</h3><p>{{ travel.description }}</p>
-          </article>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
-    <section class="animal section" id="animals" aria-labelledby="animal-title">
-      <div class="container animal-grid">
-        <div class="animal-copy"><h2 id="animal-title">{{ profile.animal.title }}<br><em>{{ profile.animal.accent }}</em></h2><p>{{ profile.animal.text }}</p><div class="paw-trail" aria-hidden="true"><span>{{ icon('paw') }}</span><span>{{ icon('paw') }}</span><span>{{ icon('paw') }}</span></div></div>
-        <figure class="animal-photo"><button type="button" class="js-lightbox-trigger" data-image="{{ photo_url(profile.animal.image) }}" data-caption="Chơi cùng những chú chó" data-alt="{{ profile.animal.alt }}" aria-label="Xem ảnh: Chơi cùng những chú chó">
-          <img src="{{ photo_url(profile.animal.image) }}" alt="{{ profile.animal.alt }}" loading="lazy" decoding="async" width="1280" height="1280"><span class="photo-expand">{{ icon('expand') }}<span class="sr-only">Xem ảnh lớn</span></span>
-        </button></figure>
-      </div>
-    </section>
-  </main>
-  <footer class="site-footer"><div class="container footer-inner"><a href="#top">Chuyện của mình.</a><span id="current-year"></span><a class="back-to-top" href="#top" aria-label="Về đầu trang">{{ icon('arrow-up-right') }}</a></div></footer>
-  <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
-    <div class="lightbox-dialog">
-      <div class="lightbox-toolbar"><p id="lightbox-title">Xem ảnh</p><button type="button" class="icon-button" aria-label="Đóng ảnh" data-lightbox-close>{{ icon('close') }}</button></div>
-      <div class="lightbox-stage"><img id="lightbox-image" src="{{ photo_url(profile.hero_photo) }}" alt=""><p id="lightbox-status" role="status" aria-live="polite"></p></div>
-      <div class="lightbox-bottom"><div class="lightbox-controls"><button type="button" class="icon-button" aria-label="Ảnh trước" data-lightbox-prev>{{ icon('arrow-left') }}</button><span id="lightbox-count" aria-live="polite"></span><button type="button" class="icon-button" aria-label="Ảnh tiếp theo" data-lightbox-next>{{ icon('arrow-right') }}</button></div></div>
-    </div>
-  </dialog>
-  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-</body>
+    </dialog>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  </body>
 </html>

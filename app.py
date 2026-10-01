@@ -4,10 +4,12 @@ from flask import Flask, render_template, send_from_directory
 
 from profile_data import PROFILE
 
-
 app = Flask(__name__)
 app.config["DEBUG"] = os.environ.get("FLASK_DEBUG", "").strip().lower() in {
-    "1", "true", "yes", "on"
+    "1",
+    "true",
+    "yes",
+    "on",
 }
 
 
