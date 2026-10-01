@@ -81,7 +81,7 @@
         <div class="section-heading"><h2 id="travel-title">{{ profile.travel_title }}<br><em>{{ profile.travel_accent }}</em></h2><span class="heading-icon" aria-hidden="true">{{ icon('camera') }}</span></div>
         <div class="travel-grid">
           {% for travel in profile.travels %}
-          <article class="travel-card {{ travel.class_name }}">
+          <article class="travel-card">
             <button type="button" class="travel-image js-lightbox-trigger" data-image="{{ photo_url(travel.image) }}" data-caption="{{ travel.title }}" data-alt="{{ travel.alt }}" aria-label="Xem ảnh: {{ travel.title }}">
               <img src="{{ photo_url(travel.image) }}" alt="{{ travel.alt }}" loading="lazy" decoding="async" width="1280" height="960"><span class="photo-expand">{{ icon('expand') }}<span class="sr-only">Xem ảnh lớn</span></span>
             </button><h3>{{ travel.title }}</h3><p>{{ travel.description }}</p>

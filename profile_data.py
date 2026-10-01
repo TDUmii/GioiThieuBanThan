@@ -62,21 +62,18 @@ PROFILE = {
             "alt": "Lối đi giữa vườn hoa cẩm tú cầu",
             "title": "Giữa màu xanh.",
             "description": "Một lối đi giữa những khóm cẩm tú cầu. Mình thích lưu lại những khung cảnh như thế này, để sau chuyến đi vẫn còn một góc xanh mà nhìn lại.",
-            "class_name": "travel-card--wide",
         },
         {
             "image": "img/dulich2.jpg",
             "alt": "Con đường gỗ giữa một vườn hoa trắng",
             "title": "Một ngày đầy hoa.",
             "description": "Con đường gỗ, những bông hoa trắng và một khoảng trời yên tĩnh. Đôi khi một chuyến đi đáng nhớ chỉ cần những điều đơn giản như vậy.",
-            "class_name": "",
         },
         {
             "image": "img/dulich4.jpg",
             "alt": "Một góc vườn có cây, hoa và bảng gỗ",
             "title": "Góc vườn nhỏ.",
             "description": "Giữa cây, hoa và những chi tiết nhỏ trong vườn, mình có thêm một tấm ảnh để mang về. Một khoảnh khắc bình thường, nhưng là một phần của chuyến đi.",
-            "class_name": "",
         },
     ],
     "animal": {

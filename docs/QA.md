@@ -1,5 +1,15 @@
 # Kiểm tra nội dung và giao diện
 
+## Cân lại ảnh Chuyến đi ngày 01/10/2026
+
+- Ba ảnh dùng chung khung vuông, ba cột bằng nhau. Trên desktop 1440px, ảnh khoảng 365.3x365.3px; tiêu đề và đoạn mô tả thẳng hàng, sai lệch dưới 1px do làm tròn layout.
+- Từ 680px trở xuống xếp một cột. Kiểm tra cuối ở 320, 390, 580, 581, 680, 681, 768, 1024, 1440px: không tràn ngang hoặc tràn chữ; ba khung ảnh bằng nhau ở từng viewport.
+- Đọc bố cục từ ảnh chụp desktop và mobile 390px. Không tạo một ảnh lớn tràn hai cột hoặc để một ảnh lẻ khác kích thước.
+- Mở ảnh Giữa màu xanh trên mobile: album hiện đúng /img/dulich1.jpg, object-fit contain và vị trí 6/9. Đóng ảnh trả focus về nút mở. Ảnh gốc và lời mô tả không thay đổi.
+- 8/8 nhóm unittest PASS, có thêm kiểm tra ba article dùng chung layout. git diff --check PASS; console không có warning/error trong lượt test.
+- Bộ quét layout báo DEGRADED do thiếu parser; kết quả regex không được coi là chứng nhận sạch. Kiểm tra kích thước, hàng chữ và overflow được thực hiện trực tiếp trên DOM và ảnh chụp trình duyệt.
+- Preview: [desktop](preview-travel.png), [mobile](preview-travel-mobile.png). Đây là viewport mô phỏng, không phải thử trên điện thoại vật lý. Viewport tạm được reset khi kết thúc.
+
 ## Bổ sung mô tả ngày 01/10/2026
 
 - Giới thiệu gồm hai đoạn về công nghệ và cuộc sống thường ngày. Bốn dấu mốc đều có lời kể mở rộng; ba ảnh du lịch có đoạn mô tả riêng; phần động vật được viết đầy đủ hơn.

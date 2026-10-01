@@ -105,10 +105,10 @@ h1 em, h2 em { color: var(--coral); font: 600 1.12em/1.1 var(--font-hand); lette
 .js-lightbox-trigger:hover img { transform: scale(1.025); }
 .js-lightbox-trigger:hover .photo-expand { color: var(--surface); background: var(--coral); }
 .travel { background: var(--surface); }
-.travel-grid { display: grid; grid-template-columns: 1.45fr 1fr 1fr; align-items: start; gap: 32px; }
+.travel-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 32px; }
+.travel-card { min-width: 0; }
 .travel-image { position: relative; display: block; width: 100%; overflow: hidden; border-radius: 4px; }
-.travel-image img { height: auto; aspect-ratio: .76; object-fit: cover; }
-.travel-card--wide .travel-image img { aspect-ratio: 1.32; }
+.travel-image img { height: auto; aspect-ratio: 1; object-fit: cover; }
 .travel-card h3 { margin-top: 18px; font-size: 16px; line-height: 1.4; }
 .travel-card p { max-width: 65ch; margin-top: 10px; color: var(--muted); font-size: 14px; line-height: 1.85; }
 .animal { color: var(--surface); background: var(--navy); }
@@ -166,8 +166,11 @@ h1 em, h2 em { color: var(--coral); font: 600 1.12em/1.1 var(--font-hand); lette
   .section-heading { margin-bottom: 40px; } .timeline-item { grid-template-columns: 44px minmax(0, 1fr); gap: 20px; }
   .timeline-marker { width: 44px; } .timeline-track { left: 21px; }
   .timeline-content, .timeline-item--reverse .timeline-content { grid-template-columns: 1fr; gap: 24px; } .timeline-item--reverse .timeline-copy { order: 0; } .timeline-photo { width: min(100%, 500px); }
-  .travel-grid { grid-template-columns: 1fr 1fr; gap: 30px; } .travel-card--wide { grid-column: 1 / -1; } .travel-card--wide .travel-image img { aspect-ratio: 1.6; }
+  .travel-grid { gap: 24px; }
   .animal-grid { gap: 35px; } .animal-copy h2 { font-size: 34px; } .animal-copy p { font-size: 14px; }
+}
+@media (max-width: 680px) {
+  .travel-grid { grid-template-columns: 1fr; gap: 36px; }
 }
 @media (max-width: 580px) {
   .container { width: calc(100% - 40px); } .brand strong { font-size: 15px; } .brand-mark, .brand-mark .icon { width: 32px; height: 32px; }
@@ -183,7 +186,7 @@ h1 em, h2 em { color: var(--coral); font: 600 1.12em/1.1 var(--font-hand); lette
   .timeline-marker { width: 32px; height: 69px; font-size: 10px; } .timeline-marker .icon { width: 26px; height: 26px; } .timeline-track { left: 15px; }
   .timeline-copy h3 { margin-bottom: 14px; font-size: 25px; } .timeline-copy p { font-size: 14px; line-height: 1.9; }
   .timeline-photo { padding: 6px 6px 0; transform: none; } .timeline-item--reverse .timeline-photo { transform: none; } .timeline-photo figcaption { font-size: 18px; }
-  .photo-expand { width: 36px; height: 36px; right: 8px; bottom: 8px; } .travel-grid { gap: 28px 20px; } .travel-card h3 { font-size: 14px; }
+  .photo-expand { width: 36px; height: 36px; right: 8px; bottom: 8px; } .travel-card h3 { font-size: 16px; }
   .animal-grid { grid-template-columns: 1fr; gap: 38px; } .animal-copy h2 { font-size: 37px; } .animal-copy p { font-size: 15px; }
   .animal-photo { width: calc(100% - 12px); margin-inline: auto; } .footer-inner { gap: 16px; min-height: 76px; font-size: 11px; }
   .lightbox { width: calc(100% - 24px); max-height: calc(100dvh - 24px); } .lightbox-dialog { gap: 10px; padding: 12px; } .lightbox-stage img { height: 50dvh; }
@@ -192,7 +195,6 @@ h1 em, h2 em { color: var(--coral); font: 600 1.12em/1.1 var(--font-hand); lette
   .container { width: calc(100% - 32px); } .hero-visual { padding-inline: 18px; } .hero-memory { width: 137px; } .hero-connector { left: 143px; }
   .facts-list > div { grid-template-columns: 1fr; gap: 5px; } .timeline-item { gap: 10px; } .timeline-copy h3 { font-size: 23px; }
   .hero-photo figcaption .icon { display: none; }
-  .travel-grid { grid-template-columns: 1fr; } .travel-card--wide { grid-column: auto; } .travel-image img { aspect-ratio: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

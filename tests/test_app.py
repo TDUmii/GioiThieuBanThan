@@ -71,6 +71,11 @@ class PortfolioRoutesTest(unittest.TestCase):
             self.assertGreater(len(travel["description"].split()), 20)
         self.assertIn(str(escape(profile["animal"]["text"])), html)
 
+    def test_travel_photos_share_one_layout(self):
+        html = self.client.get("/").get_data(as_text=True)
+        self.assertEqual(html.count('<article class="travel-card">'), 3)
+        self.assertNotIn('travel-card--wide', html)
+
     def test_original_images_and_static_files(self):
         files = [("/img/" + name, ROOT / "img" / name) for name in sorted(IMAGES)]
         files += [

@@ -6,7 +6,7 @@ Portfolio cá nhân bằng ảnh: mình ở hiện tại, những kỷ niệm v�
 
 ![Giao diện desktop](docs/preview-desktop.png)
 
-[Về mình](docs/preview-about.png) | [Nhìn lại](docs/preview-journey.png) | [Giao diện điện thoại](docs/preview-mobile.png)
+[Về mình](docs/preview-about.png) | [Nhìn lại](docs/preview-journey.png) | [Chuyến đi](docs/preview-travel.png) | [Giao diện điện thoại](docs/preview-mobile.png)
 
 ## Chạy local
 

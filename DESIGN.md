@@ -20,6 +20,8 @@ Không thêm thư viện hoặc vòng animation chạy vô hạn. requestAnimati
 
 Khung tối đa 1160px. Menu mobile tại 820px, bố cục một cột tại 580px, điều chỉnh nhỏ tại 360px. Ảnh trường/STEM/đồ án dùng contain; ảnh cá nhân và du lịch có nút xem bản gốc. Tiêu đề không vượt 6rem, tracking không thấp hơn -0.035em.
 
+Phần Chuyến đi dùng ba cột bằng nhau, ảnh vuông cùng kích thước; tiêu đề và đoạn mô tả bắt đầu trên cùng hàng. Không có ảnh chính lớn hoặc modifier wide. Tablet giữ ba cột gọn; từ 680px trở xuống xếp một cột theo thứ tự ảnh, tiêu đề, lời kể để tránh ép nội dung vào cột quá hẹp. Khung vuông chỉ là cách hiển thị CSS, album vẫn mở ảnh gốc đầy đủ.
+
 ## Tham khảo local
 
 Đọc mã hiện tại ở D:/Code/UI-UX, không sửa các dự án đó và không sao chép ảnh, font hoặc cả thư mục sang đây:
