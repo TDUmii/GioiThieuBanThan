@@ -11,7 +11,6 @@
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
   <link rel="preload" href="{{ url_for('static', filename='fonts/quicksand-500.ttf') }}" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/easter-eggs.css') }}">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Bỏ qua đến nội dung chính</a>
@@ -32,21 +31,6 @@
           <h1 id="hero-title">{{ profile.hero_heading }}<br><em>{{ profile.hero_accent }}</em></h1>
           <p class="hero-description">{{ profile.hero_description }}</p>
           <a class="button button--primary" href="#journey">Nhìn lại {{ icon('arrow-flow') }}</a>
-          <aside class="cat-companion" data-cat-companion hidden aria-label="Một người bạn nhỏ">
-            <button class="corner-cat" type="button" data-corner-cat aria-label="Vuốt ve mèo" title="Vuốt ve mèo">
-              <span class="cat-art" aria-hidden="true">
-                <img class="cat-rest" src="{{ url_for('static', filename='eggs/cat-rest.webp') }}" alt="" width="800" height="918">
-                <img class="cat-meow" src="{{ url_for('static', filename='eggs/cat-meow.webp') }}" alt="" width="800" height="918">
-                <span class="cat-pupil cat-pupil--left"></span><span class="cat-pupil cat-pupil--right"></span>
-              </span>
-            </button>
-            <button class="cat-sound" type="button" data-cat-sound aria-label="Tắt tiếng mèo" aria-pressed="false" title="Tắt tiếng mèo">{{ icon('sound') }}{{ icon('sound-off') }}</button>
-            <audio data-cat-audio preload="none">
-              <source src="{{ url_for('static', filename='eggs/meow.ogg') }}" type="audio/ogg">
-              <source src="{{ url_for('static', filename='eggs/meow.mp3') }}" type="audio/mpeg">
-            </audio>
-            <span class="sr-only" role="status" data-cat-status></span>
-          </aside>
         </div>
         <div class="hero-visual" data-hero-scene>
           <figure class="hero-photo" data-photo-now>
@@ -109,7 +93,7 @@
     <section class="animal section" id="animals" aria-labelledby="animal-title">
       <div class="container animal-grid">
         <div class="animal-copy"><h2 id="animal-title">{{ profile.animal.title }}<br><em>{{ profile.animal.accent }}</em></h2><p>{{ profile.animal.text }}</p><div class="paw-trail" aria-hidden="true"><span>{{ icon('paw') }}</span><span>{{ icon('paw') }}</span><span>{{ icon('paw') }}</span></div></div>
-        <figure class="animal-photo"><button type="button" class="js-lightbox-trigger" data-animal-photo data-image="{{ photo_url(profile.animal.image) }}" data-caption="Chơi cùng những chú chó" data-alt="{{ profile.animal.alt }}" aria-label="Xem ảnh: Chơi cùng những chú chó">
+        <figure class="animal-photo"><button type="button" class="js-lightbox-trigger" data-image="{{ photo_url(profile.animal.image) }}" data-caption="Chơi cùng những chú chó" data-alt="{{ profile.animal.alt }}" aria-label="Xem ảnh: Chơi cùng những chú chó">
           <img src="{{ photo_url(profile.animal.image) }}" alt="{{ profile.animal.alt }}" loading="lazy" decoding="async" width="1280" height="1280"><span class="photo-expand">{{ icon('expand') }}<span class="sr-only">Xem ảnh lớn</span></span>
         </button></figure>
       </div>
@@ -124,6 +108,5 @@
     </div>
   </dialog>
   <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-  <script src="{{ url_for('static', filename='js/easter-eggs.js') }}" data-paw-src="{{ url_for('static', filename='eggs/cat-paw.webp') }}" defer></script>
 </body>
 </html>

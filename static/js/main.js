@@ -62,8 +62,6 @@
   var runningAnimations = new Set();
   var scene = document.querySelector('[data-hero-scene]');
   var heroPlayed = false;
-  var paws = Array.from(document.querySelectorAll('.paw-trail span'));
-  var pawAnimations = [];
 
   function playMotion(element, frames, options) {
     if (!element || reducedMotion.matches || document.hidden || typeof element.animate !== 'function') {
@@ -110,22 +108,6 @@
     placePhotographs();
   }
 
-  function greetWithPaws() {
-    if (pawAnimations.some(function (animation) { return animation.playState === 'running'; })) { return; }
-    pawAnimations = paws.map(function (paw, index) {
-      var resting = getComputedStyle(paw).transform;
-      return playMotion(paw, [
-        { opacity: .2, transform: 'translateY(7px) scale(.8)' },
-        { opacity: 1, transform: resting, offset: .45 },
-        { opacity: .45, transform: resting }
-      ], { duration: 420, delay: index * 70, easing: 'ease-out' });
-    }).filter(Boolean);
-  }
-  var animalPhoto = document.querySelector('[data-animal-photo]');
-  if (animalPhoto) {
-    animalPhoto.addEventListener('pointerenter', greetWithPaws);
-    animalPhoto.addEventListener('focus', greetWithPaws);
-  }
   function cancelMotion() {
     runningAnimations.forEach(function (animation) { animation.cancel(); });
     runningAnimations.clear();
