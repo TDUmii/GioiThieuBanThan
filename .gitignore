@@ -8,3 +8,9 @@ __pycache__/
 *.log
 Thumbs.db
 desktop.ini
+
+# Keep local checks and design notes out of the repository.
+/tests/
+/DESIGN.md
+/docs/QA.md
+/docs/preview-*.png
