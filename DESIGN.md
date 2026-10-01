@@ -26,11 +26,11 @@ Khung tối đa 1160px. Menu mobile tại 820px, bố cục một cột tại 58
 
 Phần Chuyến đi dùng ba cột bằng nhau, ảnh vuông cùng kích thước; tiêu đề và đoạn mô tả bắt đầu trên cùng hàng. Không có ảnh chính lớn hoặc modifier wide. Tablet giữ ba cột gọn; từ 680px trở xuống xếp một cột theo thứ tự ảnh, tiêu đề, lời kể để tránh ép nội dung vào cột quá hẹp. Khung vuông chỉ là cách hiển thị CSS, album vẫn mở ảnh gốc đầy đủ.
 
-## Tham khảo local
+## Nguyên tắc tương tác
 
-Đọc mã hiện tại ở D:/Code/UI-UX, không sửa các dự án đó hoặc sao chép cả thư mục sang đây:
+Các tương tác dùng những nguyên tắc sau:
 
-- Wind-404/js/wind.js: nguyên tắc nét SVG vẽ theo độ dài và dừng hoạt ảnh khi tab ẩn. Áp dụng vào nét nối hai ảnh và quản lý motion.
-- Sneaker-Wheel/js/wheel.js: ngưỡng vuốt, phân biệt trục ngang/dọc và chuyển trạng thái có hướng. Áp dụng cho album ảnh.
+- Nét SVG được vẽ theo độ dài và hoạt ảnh dừng khi tab ẩn. Áp dụng vào nét nối hai ảnh và quản lý motion.
+- Thao tác vuốt có ngưỡng kích hoạt, phân biệt trục ngang/dọc và chuyển trạng thái có hướng. Áp dụng cho album ảnh.
 
-Các ảnh và nội dung gốc của dự án vẫn riêng tư; publication chỉ bao gồm GioiThieuBanThan.
+Phạm vi mã nguồn và tài liệu chỉ bao gồm các file của dự án.

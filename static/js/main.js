@@ -229,7 +229,7 @@
       backdropPointer = null;
     });
 
-    // Adapted gesture pattern from the local Sneaker-Wheel project.
+    // Distinguish horizontal album swipes from vertical scrolling.
     var swipeStart = null;
     lightboxImage.draggable = false;
     lightboxImage.addEventListener('pointerdown', function (event) {

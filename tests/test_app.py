@@ -119,7 +119,7 @@ class PortfolioRoutesTest(unittest.TestCase):
             "/missing", "/img/missing.jpg", "/static/missing.js",
             "/img/../app.py", "/img/%2e%2e/app.py", "/img/..%2Fapp.py",
             "/img/..%5Capp.py", "/img/%2e%2e%5Capp.py",
-            "/img/D:%5CCode%5CPythonMaster%5CGioiThieuBanThan%5Capp.py",
+            "/img/C:%5Cexample%5Cproject%5Capp.py",
             "/static/../app.py", "/static/%2e%2e/app.py",
         ):
             with self.subTest(url=url):
@@ -152,6 +152,25 @@ class PortfolioRoutesTest(unittest.TestCase):
         self.assertIn(str(escape(payload)), html)
         self.assertIn('alt="' + str(escape(payload)) + '"', html)
         self.assertIn('data-caption="' + str(escape(payload)) + '"', html)
+
+
+class DocumentationPrivacyTest(unittest.TestCase):
+    def test_readme_only_documents_installation_and_running(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for required in ("requirements.txt", "run.cmd", "app.py", "Ctrl+C"):
+            self.assertIn(required, readme)
+        self.assertNotIn("![", readme)
+        for field in ("hero_description", "intro_more"):
+            self.assertNotIn(app_module.PROFILE[field], readme)
+
+    def test_documentation_has_no_machine_specific_paths(self):
+        for name in ("README.md", "DESIGN.md", "docs/QA.md"):
+            with self.subTest(path=name):
+                text = (ROOT / name).read_text(encoding="utf-8")
+                normalized = text.replace("\\", "/").casefold()
+                self.assertNotIn(ROOT.as_posix().casefold(), normalized)
+                self.assertNotRegex(text, r"(?i)\b[a-z]:[/\\](?:Users|Code)[/\\]")
+                self.assertNotRegex(text, r"/(?:Users|home)/[^/\s]+/")
 
 
 if __name__ == "__main__":

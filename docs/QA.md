@@ -66,6 +66,6 @@ Ngày kiểm tra: 30/09/2026. Flask local tại 127.0.0.1:5059, debug tắt. M�
 
 Kiểm tra bằng trình duyệt in-app trên desktop và viewport mô phỏng; drag ngang dùng input trình duyệt, chưa xác nhận trên điện thoại vật lý hoặc Safari/Firefox. Cơ chế pause của tab ẩn được kiểm tra qua mã, không khẳng định đo FPS trên thiết bị yếu. Preview cuối được trả về viewport bình thường, JavaScript bật và không giữ giả lập reduced-motion.
 
-Tham khảo local được ghi trong DESIGN.md. Không sửa hoặc publication bất kỳ file nào trong D:/Code/UI-UX.
+Các nguyên tắc giao diện được ghi trong DESIGN.md. Phạm vi kiểm tra chỉ gồm các file của dự án.
 
 Ảnh xem trước: [desktop](preview-desktop.png), [nhìn lại](preview-journey.png), [mobile](preview-mobile.png).
